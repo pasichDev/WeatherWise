@@ -14,17 +14,20 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
     secondary = PurpleGrey80,
-    tertiary = Pink80
+    tertiary = Pink80,
+    outline = ColorOutline
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = Purple40,
     secondary = PurpleGrey40,
-    tertiary = Pink40
+    tertiary = Pink40,
+    outline = ColorOutline
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -39,11 +42,13 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun WeatherWiseTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = true,
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
+    colorNavigationDefault: Boolean = false,
     content: @Composable () -> Unit
 ) {
+    val systemUiController = rememberSystemUiController()
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
@@ -59,6 +64,15 @@ fun WeatherWiseTheme(
             val window = (view.context as Activity).window
             window.statusBarColor = colorScheme.primary.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            systemUiController.setStatusBarColor(
+                color = SystemGradienTwoTest,
+                darkIcons = !darkTheme
+            )
+            systemUiController.setNavigationBarColor(
+                color = if (colorNavigationDefault) colorScheme.surfaceVariant else colorScheme.background,
+                darkIcons = !darkTheme
+            )
+
         }
     }
 
