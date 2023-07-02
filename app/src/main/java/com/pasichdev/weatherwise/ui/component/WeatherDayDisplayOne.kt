@@ -27,22 +27,29 @@ import com.pasichdev.weatherwise.ui.theme.WeatherWiseTheme
 fun WeatherDayInfoDisplayOne(modifier: Modifier = Modifier){
     Column(verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = "22",
-            fontWeight = FontWeight.Bold,
-            fontSize = 160.sp)
+
+        Row() {
+            Text(text = "22",
+                fontWeight = FontWeight.Bold,
+                fontSize = 120.sp)
+            Text(text = "°",
+                fontWeight = FontWeight.ExtraLight,
+                fontSize = 120.sp,
+                color = Color.White.copy(alpha = 0.4f))
+        }
         Text(text = "Thunderstorm",
             fontWeight = FontWeight.Light,
-            fontSize = 26.sp)
+            fontSize = 28.sp)
         Text(text = "Monday, 14 May",
             modifier.padding(top = 5.dp),
             style = TextStyle(
                 fontWeight = FontWeight.Light,
-                fontSize = 16.sp,
+                fontSize = 18.sp,
                 color = Color.White.copy(alpha = 0.4f)
             ))
         Divider(color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f),
             thickness = 0.5.dp, modifier = Modifier.padding(20.dp))
-        Row() {
+        Row(modifier = modifier.padding(bottom = 20.dp)) {
             InfoWeatherCard(infoOne = "13km/h", infoTwo = "Wind")
             InfoWeatherCard(infoOne = "24%", infoTwo = "Humidity")
             InfoWeatherCard(infoOne = "87%", infoTwo = "Chance of rain")

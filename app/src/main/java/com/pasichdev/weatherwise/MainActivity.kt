@@ -1,6 +1,7 @@
 package com.pasichdev.weatherwise
 
 import android.os.Bundle
+import android.provider.CalendarContract
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -38,6 +40,7 @@ import com.pasichdev.weatherwise.ui.component.ImageWeatherMain
 import com.pasichdev.weatherwise.ui.component.StatusRefresh
 import com.pasichdev.weatherwise.ui.component.ToolbarMainActivity
 import com.pasichdev.weatherwise.ui.component.WeatherDayInfoDisplayOne
+import com.pasichdev.weatherwise.ui.theme.MAinDuvuderTest
 import com.pasichdev.weatherwise.ui.theme.SystemGradienTwoTest
 import com.pasichdev.weatherwise.ui.theme.SystemTest
 import com.pasichdev.weatherwise.ui.theme.WeatherWiseTheme
@@ -67,7 +70,7 @@ fun Greeting( modifier: Modifier = Modifier) {
         .fillMaxWidth()) {
         Box(
             modifier = Modifier
-                .fillMaxHeight(0.8f)
+                //    .fillMaxHeight(0.75f)
                 .fillMaxWidth()
                 .background(
                     brush = Brush.verticalGradient(
@@ -77,6 +80,7 @@ fun Greeting( modifier: Modifier = Modifier) {
                         tileMode = TileMode.Clamp
                     ),
                     shape = RoundedCornerShape(bottomEnd = 60.dp, bottomStart = 60.dp)
+
                 )
 
         ) {
@@ -93,6 +97,7 @@ fun Greeting( modifier: Modifier = Modifier) {
 
 
         }
+
         Box(
             modifier = Modifier
                 .fillMaxHeight(1f)
@@ -110,7 +115,7 @@ fun Greeting( modifier: Modifier = Modifier) {
                     fontWeight = FontWeight.Bold,
                     fontSize = 22.sp)
                 Box(
-                  //  modifier.fillMaxWidth(),
+                    Modifier.fillMaxWidth(),
                     contentAlignment = Alignment.CenterEnd
                 ) {
                     Text(text = "7 days >", color = MaterialTheme.colorScheme.outline,  fontSize = 14.sp)
@@ -119,10 +124,7 @@ fun Greeting( modifier: Modifier = Modifier) {
 
 
             }
-                Box(
-                    modifier
-                        .fillMaxWidth()
-                       // .padding(vertical = 20.dp)
+                Box(modifier.fillMaxWidth()
                 ) {
                     HourWeatherCard()
                 }

@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.pasichdev.weatherwise.R
 import com.pasichdev.weatherwise.ui.theme.WeatherWiseTheme
 
@@ -37,7 +38,7 @@ fun StatusRefresh(modifier: Modifier = Modifier) {
                 contentDescription = "",
                 modifier = Modifier.padding(horizontal = 5.dp)
             )
-            Text(text = "Updating", modifier = Modifier.padding(end = 5.dp))
+            Text(text = "Updating", modifier = Modifier.padding(end = 5.dp), color = Color.White, fontSize = 12.sp)
         }
     }
 }

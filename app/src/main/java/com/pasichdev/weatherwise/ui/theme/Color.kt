@@ -13,5 +13,6 @@ val Pink40 = Color(0xFF7D5260)
 
 
 val SystemTest = Color(0xFF1486F6)
+val MAinDuvuderTest = Color(0xFF043F90)
 val SystemGradienTwoTest = Color(0xFF15BFF6)
 val ColorOutline = Color(0xFF101B2C)
