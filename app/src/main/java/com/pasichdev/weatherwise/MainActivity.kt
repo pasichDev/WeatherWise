@@ -34,6 +34,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pasichdev.weatherwise.ui.component.HourWeatherCard
+import com.pasichdev.weatherwise.ui.component.ImageWeatherMain
+import com.pasichdev.weatherwise.ui.component.StatusRefresh
+import com.pasichdev.weatherwise.ui.component.ToolbarMainActivity
+import com.pasichdev.weatherwise.ui.component.WeatherDayInfoDisplayOne
 import com.pasichdev.weatherwise.ui.theme.SystemGradienTwoTest
 import com.pasichdev.weatherwise.ui.theme.SystemTest
 import com.pasichdev.weatherwise.ui.theme.WeatherWiseTheme
@@ -45,17 +49,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             WeatherWiseTheme {
 
-                Scaffold(
-                    content = { Greeting(modifier = Modifier.padding(it))})
-
-            /*    Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
+                Scaffold(topBar = { ToolbarMainActivity() }){
+                    Greeting(modifier = Modifier.padding(it))
                 }
 
-             */
+
             }
         }
     }
@@ -69,7 +67,7 @@ fun Greeting( modifier: Modifier = Modifier) {
         .fillMaxWidth()) {
         Box(
             modifier = Modifier
-                .fillMaxHeight(0.7f)
+                .fillMaxHeight(0.8f)
                 .fillMaxWidth()
                 .background(
                     brush = Brush.verticalGradient(
@@ -82,6 +80,17 @@ fun Greeting( modifier: Modifier = Modifier) {
                 )
 
         ) {
+            Column(modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally) {
+
+                StatusRefresh(modifier= modifier)
+                ImageWeatherMain()
+                WeatherDayInfoDisplayOne()
+            }
+
+
+
 
         }
         Box(
@@ -92,22 +101,16 @@ fun Greeting( modifier: Modifier = Modifier) {
         ) {
 
             Column() {
-                
-
-
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = modifier.padding(horizontal = 8.dp, vertical = 12.dp)
             ) {
 
                 Text(text = "Today",
                     fontWeight = FontWeight.Bold,
                     fontSize = 22.sp)
                 Box(
-                    modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp),
+                  //  modifier.fillMaxWidth(),
                     contentAlignment = Alignment.CenterEnd
                 ) {
                     Text(text = "7 days >", color = MaterialTheme.colorScheme.outline,  fontSize = 14.sp)
@@ -119,7 +122,7 @@ fun Greeting( modifier: Modifier = Modifier) {
                 Box(
                     modifier
                         .fillMaxWidth()
-                        .padding(vertical = 20.dp)
+                       // .padding(vertical = 20.dp)
                 ) {
                     HourWeatherCard()
                 }

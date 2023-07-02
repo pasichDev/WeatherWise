@@ -28,7 +28,7 @@ fun HourWeatherCard(modifier: Modifier = Modifier) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "21℃", modifier = modifier, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+            Text(text = "21°", modifier = modifier, fontSize = 18.sp, fontWeight = FontWeight.Bold)
             Image(
                 painter = painterResource(id = R.drawable.weather_test),
                 contentDescription = "WeatherIcon",
