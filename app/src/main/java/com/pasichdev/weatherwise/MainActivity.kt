@@ -97,6 +97,8 @@ fun Greeting(modifier: Modifier = Modifier) {
 
             Column {
                 Row(
+                    modifier = Modifier
+                        .padding(bottom = 20.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
@@ -117,13 +119,10 @@ fun Greeting(modifier: Modifier = Modifier) {
                         )
                     }
 
+                }
 
-                }
-                Box(
-                    modifier.fillMaxWidth()
-                ) {
                     HourWeatherCard()
-                }
+
 
 
             }
