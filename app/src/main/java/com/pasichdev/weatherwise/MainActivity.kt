@@ -1,7 +1,6 @@
 package com.pasichdev.weatherwise
 
 import android.os.Bundle
-import android.provider.CalendarContract
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -10,37 +9,27 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.pasichdev.weatherwise.ui.component.HourWeatherCard
-import com.pasichdev.weatherwise.ui.component.ImageWeatherMain
-import com.pasichdev.weatherwise.ui.component.StatusRefresh
-import com.pasichdev.weatherwise.ui.component.ToolbarMainActivity
-import com.pasichdev.weatherwise.ui.component.WeatherDayInfoDisplayOne
-import com.pasichdev.weatherwise.ui.theme.MAinDuvuderTest
+import com.pasichdev.weatherwise.ui.components.HourWeatherCard
+import com.pasichdev.weatherwise.ui.components.ImageWeatherMain
+import com.pasichdev.weatherwise.ui.components.StatusLoadingInfo
+import com.pasichdev.weatherwise.ui.components.ToolbarMainActivity
+import com.pasichdev.weatherwise.ui.components.WeatherDayInfoDisplay
 import com.pasichdev.weatherwise.ui.theme.SystemGradienTwoTest
 import com.pasichdev.weatherwise.ui.theme.SystemTest
 import com.pasichdev.weatherwise.ui.theme.WeatherWiseTheme
@@ -52,7 +41,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             WeatherWiseTheme {
 
-                Scaffold(topBar = { ToolbarMainActivity() }){
+                Scaffold(topBar = { ToolbarMainActivity() }) {
                     Greeting(modifier = Modifier.padding(it))
                 }
 
@@ -63,14 +52,15 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting( modifier: Modifier = Modifier) {
+fun Greeting(modifier: Modifier = Modifier) {
 
-    Column(modifier = Modifier
-        .fillMaxHeight()
-        .fillMaxWidth()) {
+    Column(
+        modifier = Modifier
+            .fillMaxHeight()
+            .fillMaxWidth()
+    ) {
         Box(
             modifier = Modifier
-                //    .fillMaxHeight(0.75f)
                 .fillMaxWidth()
                 .background(
                     brush = Brush.verticalGradient(
@@ -84,16 +74,16 @@ fun Greeting( modifier: Modifier = Modifier) {
                 )
 
         ) {
-            Column(modifier = Modifier.fillMaxWidth(),
+            Column(
+                modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally) {
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
 
-                StatusRefresh(modifier= modifier)
+                StatusLoadingInfo(modifier = modifier)
                 ImageWeatherMain()
-                WeatherDayInfoDisplayOne()
+                WeatherDayInfoDisplay()
             }
-
-
 
 
         }
@@ -105,26 +95,32 @@ fun Greeting( modifier: Modifier = Modifier) {
                 .padding(vertical = 20.dp, horizontal = 40.dp)
         ) {
 
-            Column() {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-
-                Text(text = "Today",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 22.sp)
-                Box(
-                    Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.CenterEnd
+            Column {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    Text(text = "7 days >", color = MaterialTheme.colorScheme.outline,  fontSize = 14.sp)
+
+                    Text(
+                        text = "Today",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 22.sp
+                    )
+                    Box(
+                        Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.CenterEnd
+                    ) {
+                        Text(
+                            text = "7 days >",
+                            color = MaterialTheme.colorScheme.outline,
+                            fontSize = 14.sp
+                        )
+                    }
+
+
                 }
-
-
-
-            }
-                Box(modifier.fillMaxWidth()
+                Box(
+                    modifier.fillMaxWidth()
                 ) {
                     HourWeatherCard()
                 }

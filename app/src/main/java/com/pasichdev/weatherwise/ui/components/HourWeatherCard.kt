@@ -1,4 +1,4 @@
-package com.pasichdev.weatherwise.ui.component
+package com.pasichdev.weatherwise.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -23,8 +23,7 @@ import com.pasichdev.weatherwise.ui.theme.WeatherWiseTheme
 fun HourWeatherCard(modifier: Modifier = Modifier) {
     OutlinedCard(shape = RoundedCornerShape(30.dp)) {
         Column(
-            modifier = modifier
-                .padding(horizontal = 20.dp, vertical = 10.dp),
+            modifier = modifier.padding(horizontal = 20.dp, vertical = 10.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

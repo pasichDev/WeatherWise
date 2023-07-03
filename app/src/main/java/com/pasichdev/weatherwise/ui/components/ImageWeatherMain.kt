@@ -1,6 +1,5 @@
-package com.pasichdev.weatherwise.ui.component
+package com.pasichdev.weatherwise.ui.components
 
-import android.media.Image
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -11,9 +10,8 @@ import androidx.compose.ui.unit.dp
 import com.pasichdev.weatherwise.R
 
 @Composable
-fun ImageWeatherMain(modifier: Modifier = Modifier){
-    Image(
-        painter = painterResource(id = R.drawable.weather_test_big),
+fun ImageWeatherMain(modifier: Modifier = Modifier) {
+    Image(painter = painterResource(id = R.drawable.weather_test_big),
         contentDescription = "WeatherIcon",
         modifier = modifier
             .padding(vertical = 20.dp)

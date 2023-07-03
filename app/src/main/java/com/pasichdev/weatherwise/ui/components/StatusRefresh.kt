@@ -1,4 +1,4 @@
-package com.pasichdev.weatherwise.ui.component
+package com.pasichdev.weatherwise.ui.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -19,9 +19,11 @@ import androidx.compose.ui.unit.sp
 import com.pasichdev.weatherwise.R
 import com.pasichdev.weatherwise.ui.theme.WeatherWiseTheme
 
+/**
+ * Планується створити 3 стани (Оновленно, Старі дані, Оновлюється)
+ */
 @Composable
-
-fun StatusRefresh(modifier: Modifier = Modifier) {
+fun StatusLoadingInfo(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .border(width = 1.dp, color = Color.White, shape = RoundedCornerShape(20.dp))
@@ -35,7 +37,7 @@ fun StatusRefresh(modifier: Modifier = Modifier) {
             Icon(
                 painter = painterResource(id = R.drawable.point),
                 tint = Color.Yellow,
-                contentDescription = "",
+                contentDescription = "Update Check",
                 modifier = Modifier.padding(horizontal = 5.dp)
             )
             Text(text = "Updating", modifier = Modifier.padding(end = 5.dp), color = Color.White, fontSize = 12.sp)
@@ -48,6 +50,6 @@ fun StatusRefresh(modifier: Modifier = Modifier) {
 @Composable
 fun StatusRefreshPreview() {
     WeatherWiseTheme {
-        StatusRefresh()
+        StatusLoadingInfo()
     }
 }

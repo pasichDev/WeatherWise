@@ -1,4 +1,4 @@
-package com.pasichdev.weatherwise.ui.component
+package com.pasichdev.weatherwise.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,14 +27,13 @@ fun ToolbarMainActivity(modifier: Modifier = Modifier) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        IconButton(onClick = { /*TODO*/ },) {
+        IconButton(onClick = { }) {
             Icon(painter = painterResource(id = R.drawable.more_grid), contentDescription = "")
         }
 
 
         Box(
-            modifier = Modifier.weight(1f),
-            contentAlignment = Alignment.Center
+            modifier = Modifier.weight(1f), contentAlignment = Alignment.Center
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
