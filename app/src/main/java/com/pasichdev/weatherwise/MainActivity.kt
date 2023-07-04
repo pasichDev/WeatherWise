@@ -14,16 +14,22 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterial3Api::class)
+    @OptIn( ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             WeatherWiseTheme {
+
                 Scaffold(topBar = { ToolbarMainActivity() }) {
                     MainDisplayWeather(modifier = Modifier.padding(it))
                 }
 
             }
+
+
+            }
+
+
         }
     }
-}
+
