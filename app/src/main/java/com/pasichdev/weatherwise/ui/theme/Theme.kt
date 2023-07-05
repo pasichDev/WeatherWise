@@ -20,7 +20,8 @@ private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
     secondary = PurpleGrey80,
     tertiary = Pink80,
-    outline = ColorOutline
+    outline = ColorOutline,
+    background = ColorBackgroundDark
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -44,20 +45,25 @@ private val LightColorScheme = lightColorScheme(
 fun WeatherWiseTheme(
     darkTheme: Boolean = true,
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     colorNavigationDefault: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val systemUiController = rememberSystemUiController()
-    val colorScheme = when {
+    val colorScheme =  DarkColorScheme
+
+/*when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
         darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+       // else -> LightColorScheme
     }
+
+ */
+
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {

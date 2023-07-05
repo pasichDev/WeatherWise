@@ -1,3 +1,5 @@
 package com.pasichdev.weatherwise.ui.screen.main
 
-data class MainState(val test: Boolean = true)
+import com.pasichdev.weatherwise.data.model.WeatherCurrentDay
+
+data class MainState(val currentDay: WeatherCurrentDay? = null )

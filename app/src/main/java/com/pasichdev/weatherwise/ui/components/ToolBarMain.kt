@@ -44,7 +44,7 @@ fun ToolbarMainActivity(modifier: Modifier = Modifier) {
                     painter = painterResource(id = R.drawable.location),
                     contentDescription = ""
                 )
-                Text(text = "London", fontWeight = FontWeight.Bold, fontSize = 26.sp)
+                Text(text = "Лондон", fontWeight = FontWeight.Bold, fontSize = 26.sp)
             }
         }
 

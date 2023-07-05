@@ -4,4 +4,5 @@
     <string name="wind">Wind</string>
     <string name="Humidity">Humidity</string>
     <string name="ChanceOfRain">Chance of rain</string>
+    <string name="Today">Today</string>
 </resources>

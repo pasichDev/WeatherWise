@@ -5,4 +5,5 @@
     <string name="wind">Вітер</string>
     <string name="Humidity">Вологість</string>
     <string name="ChanceOfRain">Ймовірність дощу</string>
+    <string name="Today">Сьогодні</string>
 </resources>
