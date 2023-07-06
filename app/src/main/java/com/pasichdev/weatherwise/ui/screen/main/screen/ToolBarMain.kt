@@ -1,5 +1,6 @@
 package com.pasichdev.weatherwise.ui.screen.main.screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -16,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pasichdev.weatherwise.R
+import com.pasichdev.weatherwise.ui.theme.SystemGradienTwoTest
 import com.pasichdev.weatherwise.ui.theme.WeatherWiseTheme
 
 
@@ -23,11 +25,11 @@ import com.pasichdev.weatherwise.ui.theme.WeatherWiseTheme
 fun ToolbarMainActivity(modifier: Modifier = Modifier) {
 
     Row(
-        modifier = modifier.padding(horizontal = 20.dp),
+        modifier = modifier.background(color = SystemGradienTwoTest),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        IconButton(onClick = { }) {
+        IconButton(modifier = modifier.padding(start = 20.dp), onClick = { }) {
             Icon(painter = painterResource(id = R.drawable.more_grid), contentDescription = "")
         }
 
@@ -44,11 +46,11 @@ fun ToolbarMainActivity(modifier: Modifier = Modifier) {
                     painter = painterResource(id = R.drawable.location),
                     contentDescription = ""
                 )
-                Text(text = "Лондон", fontWeight = FontWeight.Bold, fontSize = 26.sp)
+                Text(text = "Рівне", fontWeight = FontWeight.Bold, fontSize = 26.sp)
             }
         }
 
-        IconButton(onClick = { /*TODO*/ }) {
+        IconButton(modifier = modifier.padding(end = 20.dp),onClick = { /*TODO*/ }) {
             Icon(painter = painterResource(id = R.drawable.more), contentDescription = "")
         }
     }
