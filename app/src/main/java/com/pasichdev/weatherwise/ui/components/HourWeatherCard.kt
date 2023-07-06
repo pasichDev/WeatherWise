@@ -1,7 +1,10 @@
 package com.pasichdev.weatherwise.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,6 +15,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,22 +32,35 @@ import com.pasichdev.weatherwise.utils.getDataUserCheck
 
 @Composable
 fun HourWeatherCard(modifier: Modifier = Modifier, weatherHours: Hour, selected: Boolean = false) {
-    var colorContainer = MaterialTheme.colorScheme.background
+ //   var colorContainer = MaterialTheme.colorScheme.background
     var paddingCard = 15.dp
+    var brush: Brush = Brush.verticalGradient(colors = listOf(MaterialTheme.colorScheme.background, MaterialTheme.colorScheme.background))
 
      if(selected){
-         colorContainer = SystemGradienTwoTest
+        // colorContainer = SystemGradienTwoTest
          paddingCard = 20.dp
+         brush =  Brush.verticalGradient(
+             colors = listOf(SystemGradienTwoTest, SystemTest),
+             startY = 0.2f,
+             endY = Float.POSITIVE_INFINITY,
+             tileMode = TileMode.Clamp
+         )
      }
 
 
-    OutlinedCard(shape = RoundedCornerShape(35.dp), modifier = Modifier.padding(end = 15.dp),
-        colors = CardDefaults.outlinedCardColors(containerColor = colorContainer)) {
+    OutlinedCard(shape = RoundedCornerShape(35.dp), modifier = Modifier.padding(end = 15.dp)) {
+
+
+        Box(modifier = modifier.background(
+            brush = brush)) {
         Column(
-            modifier = modifier.padding(paddingCard),
+            modifier = Modifier.padding(paddingCard),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
+
+
             Text(text = weatherHours.temp_c.toInt().toString() + "°",
                 modifier = modifier,
                 fontSize = 22.sp,
@@ -56,6 +74,7 @@ fun HourWeatherCard(modifier: Modifier = Modifier, weatherHours: Hour, selected:
             )
 
             Text(text = convertToTime(weatherHours.time), modifier = modifier, color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6F))
+            }
         }
     }
 }

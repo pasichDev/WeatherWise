@@ -11,24 +11,18 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.TileMode
-import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,7 +30,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.lifecycleScope
 import com.pasichdev.weatherwise.R
 import com.pasichdev.weatherwise.ui.components.HourWeatherCard
 import com.pasichdev.weatherwise.ui.components.ImageWeatherMain
@@ -47,7 +40,6 @@ import com.pasichdev.weatherwise.ui.theme.SystemTest
 import com.pasichdev.weatherwise.ui.theme.WeatherWiseTheme
 import com.pasichdev.weatherwise.utils.convertToDay
 import com.pasichdev.weatherwise.utils.convertToHour
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -66,6 +58,7 @@ fun MainDisplayWeather(modifier: Modifier = Modifier, viewModel: MainViewModel =
         modifier = Modifier
             .fillMaxHeight()
             .fillMaxWidth()
+
     ) {
         Box(
             modifier = Modifier
@@ -77,9 +70,10 @@ fun MainDisplayWeather(modifier: Modifier = Modifier, viewModel: MainViewModel =
                         endY = Float.POSITIVE_INFINITY,
                         tileMode = TileMode.Clamp
                     ),
-                    shape = RoundedCornerShape(bottomEnd = 60.dp, bottomStart = 60.dp)
+                    shape = RoundedCornerShape(bottomEnd = 60.dp, bottomStart = 60.dp),
 
                 )
+
 
         ) {
             Column(
@@ -97,35 +91,36 @@ fun MainDisplayWeather(modifier: Modifier = Modifier, viewModel: MainViewModel =
 
         }
 
-            Column( modifier = Modifier
+
+        Column(
+            modifier = Modifier
                 .padding(horizontal = 40.dp)
-                .padding(top = 20.dp)) {
-                Row(
-                    modifier = Modifier
-                        .padding(bottom = 20.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                .padding(top = 20.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .padding(bottom = 20.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+
+                Text(
+                    text = stringResource(id = R.string.Today),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 26.sp
+                )
+                Box(
+                    Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.CenterEnd
                 ) {
-
                     Text(
-                        text = stringResource(id = R.string.Today),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 26.sp
+                        text = "14 днів ",
+                        fontSize = 18.sp,
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5F)
                     )
-                    Box(
-                        Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.CenterEnd
-                    ) {
-                        Text(
-                            text = "14 днів ",
-                            fontSize = 18.sp,
-                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5F)
-                        )
-                    }
-
                 }
 
-
+            }
 
 
         }
@@ -137,9 +132,9 @@ fun MainDisplayWeather(modifier: Modifier = Modifier, viewModel: MainViewModel =
             if (hoursList != null) {
                 items(hoursList.size) { index ->
                     val item = hoursList[index]
-                    val  isToday = containsCurrentTime(item.time)
+                    val isToday = containsCurrentTime(item.time)
 
-                    Log.wtf(TAG, "MainDisplayWeather: "+isToday )
+                    Log.wtf(TAG, "MainDisplayWeather: " + isToday)
 
 
                     HourWeatherCard(weatherHours = item, selected = isToday)
@@ -159,14 +154,15 @@ fun MainDisplayWeather(modifier: Modifier = Modifier, viewModel: MainViewModel =
 }
 
 
-fun containsCurrentTime(dateWeather: String): Boolean
-{
+fun containsCurrentTime(dateWeather: String): Boolean {
     val currentDateTime = LocalDateTime.now()
 
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
     val formattedDateTime = currentDateTime.format(formatter)
 
-    return convertToHour(dateWeather) == convertToHour(formattedDateTime) && convertToDay(dateWeather) == convertToDay(formattedDateTime)
+    return convertToHour(dateWeather) == convertToHour(formattedDateTime) && convertToDay(
+        dateWeather
+    ) == convertToDay(formattedDateTime)
 }
 
 
