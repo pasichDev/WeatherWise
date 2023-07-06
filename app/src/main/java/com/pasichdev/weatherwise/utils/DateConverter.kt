@@ -26,6 +26,17 @@ fun convertToTime(dateStr: String): String {
     return currentDate.format(formatter)
 }
 
+fun convertToHour(dateStr: String): Int {
+    val date: Date = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).parse(dateStr) as Date
+    return SimpleDateFormat("HH", Locale.getDefault()).format(date).toInt()
+}
+fun convertToDay(dateStr: String): Int {
+    val date: Date = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).parse(dateStr) as Date
+    return SimpleDateFormat("dd", Locale.getDefault()).format(date).toInt()
+}
+
+
+
 fun getDataUserCheck():String{
     val currentDateTime = LocalDateTime.now()
 

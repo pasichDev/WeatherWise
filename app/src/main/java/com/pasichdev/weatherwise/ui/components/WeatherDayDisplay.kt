@@ -92,7 +92,7 @@ fun InfoWeatherCard(infoOne: String, infoTwo: String, icon: Int) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(horizontal = 40.dp)
+        modifier = Modifier.padding(horizontal = 30.dp)
     ) {
         Image(painter = painterResource(id = icon), contentDescription = infoTwo)
         Text(
@@ -101,7 +101,7 @@ fun InfoWeatherCard(infoOne: String, infoTwo: String, icon: Int) {
         Text(
             text = infoTwo, style = TextStyle(
                 fontWeight = FontWeight.Light,
-                fontSize = 14.sp,
+                fontSize = 18.sp,
                 color = Color.White.copy(alpha = 0.4f)
             )
         )

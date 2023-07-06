@@ -1,6 +1,8 @@
 package com.pasichdev.weatherwise.ui.screen.main
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,19 +11,24 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.pasichdev.weatherwise.R
 import com.pasichdev.weatherwise.ui.components.HourWeatherCard
 import com.pasichdev.weatherwise.ui.components.ImageWeatherMain
@@ -37,7 +45,12 @@ import com.pasichdev.weatherwise.ui.components.WeatherDayInfoDisplay
 import com.pasichdev.weatherwise.ui.theme.SystemGradienTwoTest
 import com.pasichdev.weatherwise.ui.theme.SystemTest
 import com.pasichdev.weatherwise.ui.theme.WeatherWiseTheme
+import com.pasichdev.weatherwise.utils.convertToDay
+import com.pasichdev.weatherwise.utils.convertToHour
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 // TODO: 1. Додати суікси для перекладів. 2. Зробити список на всю сторінку 
 
@@ -46,9 +59,10 @@ import kotlinx.coroutines.launch
 fun MainDisplayWeather(modifier: Modifier = Modifier, viewModel: MainViewModel = hiltViewModel()) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
+
     val coroutineScope = rememberCoroutineScope()
     val lazyListState = rememberLazyListState()
-    var selectedIndex: Int = 8
+
     Column(
         modifier = Modifier
             .fillMaxHeight()
@@ -84,16 +98,9 @@ fun MainDisplayWeather(modifier: Modifier = Modifier, viewModel: MainViewModel =
 
         }
 
-      /*  Box(
-            modifier = Modifier
-                .fillMaxHeight(1f)
-                .fillMaxWidth()
-                .padding(vertical = 20.dp, horizontal = 40.dp)
-        ) {
-
-       */
-
-            Column( modifier = Modifier.padding(horizontal = 40.dp).padding(top = 20.dp)) {
+            Column( modifier = Modifier
+                .padding(horizontal = 40.dp)
+                .padding(top = 20.dp)) {
                 Row(
                     modifier = Modifier
                         .padding(bottom = 20.dp),
@@ -112,8 +119,8 @@ fun MainDisplayWeather(modifier: Modifier = Modifier, viewModel: MainViewModel =
                     ) {
                         Text(
                             text = "14 днів ",
-                            color = MaterialTheme.colorScheme.outline,
-                            fontSize = 18.sp
+                            fontSize = 18.sp,
+                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5F)
                         )
                     }
 
@@ -122,35 +129,46 @@ fun MainDisplayWeather(modifier: Modifier = Modifier, viewModel: MainViewModel =
 
 
 
-          ///  }
         }
+
+
+        val hoursList = state.currentDay?.forecast?.forecastday?.get(0)?.hour
 
         LazyRow(modifier = Modifier.padding(start = 40.dp), state = lazyListState) {
-        //    state.currentDay?.forecast?.forecastday?.get(0)?.hour?.size?.let { size ->
-            itemsIndexed(
-                state.currentDay?.forecast?.forecastday?.get(0)?.hour ?: emptyList()) { index, item ->
-                // Code for each item
-                HourWeatherCard(weatherHours = item)
-            }
-              //  itemsIndexed(state.currentDay.forecast.forecastday.get(0).hour) {  index, item ->
-             /*   //    val hours = state.currentDay?.forecast?.forecastday?.get(0)?.hour
-               //     hours?.get(item)?.let {
-                    //     hourWeather ->
-                        HourWeatherCard(weatherHours = item)
-                //    }
-                }
+            if (hoursList != null) {
+                items(hoursList.size) { index ->
+                    val item = hoursList[index]
+                    val  isToday = containsCurrentTime(item.time)
 
-              */
-          //  }
+                    Log.wtf(TAG, "MainDisplayWeather: "+isToday )
+
+
+                    HourWeatherCard(weatherHours = item, selected = isToday)
+                    coroutineScope.launch {
+                        if (isToday) {
+                            lazyListState.scrollToItem(index)
+                        }
+                    }
+                }
+            }
+
+
         }
 
     }
-    // Сфокусуватися на обраному об'єкті при зміні selectedIndex
-    coroutineScope.launch {
-        lazyListState.scrollToItem(selectedIndex)
-    }
+
 }
 
+
+fun containsCurrentTime(dateWeather: String): Boolean
+{
+    val currentDateTime = LocalDateTime.now()
+
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+    val formattedDateTime = currentDateTime.format(formatter)
+
+    return convertToHour(dateWeather) == convertToHour(formattedDateTime) && convertToDay(dateWeather) == convertToDay(formattedDateTime)
+}
 
 
 @Preview(showBackground = true)
