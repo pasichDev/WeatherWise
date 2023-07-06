@@ -1,8 +1,6 @@
 package com.pasichdev.weatherwise.ui.screen.main
 
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -50,7 +48,8 @@ import java.time.format.DateTimeFormatter
 fun MainDisplayWeather(modifier: Modifier = Modifier, viewModel: MainViewModel = hiltViewModel()) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
-
+    val currentDateTime =
+        LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
     val coroutineScope = rememberCoroutineScope()
     val lazyListState = rememberLazyListState()
 
@@ -72,7 +71,7 @@ fun MainDisplayWeather(modifier: Modifier = Modifier, viewModel: MainViewModel =
                     ),
                     shape = RoundedCornerShape(bottomEnd = 60.dp, bottomStart = 60.dp),
 
-                )
+                    )
 
 
         ) {
@@ -132,12 +131,10 @@ fun MainDisplayWeather(modifier: Modifier = Modifier, viewModel: MainViewModel =
             if (hoursList != null) {
                 items(hoursList.size) { index ->
                     val item = hoursList[index]
-                    val isToday = containsCurrentTime(item.time)
+                    val isToday = containsCurrentTime(item.time, currentDateTime)
 
-                    Log.wtf(TAG, "MainDisplayWeather: " + isToday)
-
-
-                    HourWeatherCard(weatherHours = item, selected = isToday)
+                    if (convertToHour(item.time) >= convertToHour(currentDateTime))
+                        HourWeatherCard(weatherHours = item, selected = isToday)
                     coroutineScope.launch {
                         if (isToday) {
                             lazyListState.scrollToItem(index)
@@ -154,15 +151,11 @@ fun MainDisplayWeather(modifier: Modifier = Modifier, viewModel: MainViewModel =
 }
 
 
-fun containsCurrentTime(dateWeather: String): Boolean {
-    val currentDateTime = LocalDateTime.now()
+fun containsCurrentTime(dateWeather: String, currentDateTime: String): Boolean {
 
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-    val formattedDateTime = currentDateTime.format(formatter)
-
-    return convertToHour(dateWeather) == convertToHour(formattedDateTime) && convertToDay(
-        dateWeather
-    ) == convertToDay(formattedDateTime)
+    return convertToHour(dateWeather) == convertToHour(currentDateTime) && convertToDay(dateWeather) == convertToDay(
+        currentDateTime
+    )
 }
 
 

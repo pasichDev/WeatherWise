@@ -32,7 +32,6 @@ import com.pasichdev.weatherwise.utils.getDataUserCheck
 
 @Composable
 fun HourWeatherCard(modifier: Modifier = Modifier, weatherHours: Hour, selected: Boolean = false) {
- //   var colorContainer = MaterialTheme.colorScheme.background
     var paddingCard = 15.dp
     var brush: Brush = Brush.verticalGradient(colors = listOf(MaterialTheme.colorScheme.background, MaterialTheme.colorScheme.background))
 
