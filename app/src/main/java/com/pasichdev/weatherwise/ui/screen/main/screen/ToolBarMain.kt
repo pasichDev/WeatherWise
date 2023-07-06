@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -44,9 +45,10 @@ fun ToolbarMainActivity(modifier: Modifier = Modifier) {
                 Icon(
                     modifier = modifier.padding(end = 5.dp),
                     painter = painterResource(id = R.drawable.location),
-                    contentDescription = ""
+                    contentDescription = "Location",
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
-                Text(text = "Рівне", fontWeight = FontWeight.Bold, fontSize = 26.sp)
+                Text(text = "Рівне", fontWeight = FontWeight.Bold, fontSize = 26.sp, color = MaterialTheme.colorScheme.onBackground)
             }
         }
 
