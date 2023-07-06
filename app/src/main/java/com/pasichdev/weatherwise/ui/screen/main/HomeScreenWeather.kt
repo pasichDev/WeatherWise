@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -23,19 +24,21 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.pasichdev.weatherwise.R
+import com.pasichdev.weatherwise.ui.OTHER_WEATHER_SCREEN
 import com.pasichdev.weatherwise.ui.screen.main.screen.HourWeatherCard
 import com.pasichdev.weatherwise.ui.screen.main.screen.ImageWeatherMain
 import com.pasichdev.weatherwise.ui.screen.main.screen.StatusLoadingInfo
 import com.pasichdev.weatherwise.ui.screen.main.screen.WeatherDayInfoDisplay
 import com.pasichdev.weatherwise.ui.theme.SystemGradienTwoTest
 import com.pasichdev.weatherwise.ui.theme.SystemTest
-import com.pasichdev.weatherwise.ui.theme.WeatherWiseTheme
 import com.pasichdev.weatherwise.utils.convertToDay
 import com.pasichdev.weatherwise.utils.convertToHour
 import kotlinx.coroutines.launch
@@ -45,13 +48,19 @@ import java.time.format.DateTimeFormatter
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun HomeScreenWeather(modifier: Modifier = Modifier, viewModel: MainViewModel = hiltViewModel()) {
+fun HomeScreenWeather(
+    navHostController: NavHostController,
+    modifier: Modifier = Modifier,
+    viewModel: MainViewModel = hiltViewModel()
+) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
     val currentDateTime =
         LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
     val coroutineScope = rememberCoroutineScope()
     val lazyListState = rememberLazyListState()
+    val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
 
     Column(
         modifier = Modifier
@@ -110,11 +119,25 @@ fun HomeScreenWeather(modifier: Modifier = Modifier, viewModel: MainViewModel = 
                 Box(
                     Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd
                 ) {
-                    Text(
-                        text = "14 днів ",
-                        fontSize = 18.sp,
-                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5F)
-                    )
+                    TextButton(
+                        onClick = {
+                            navHostController.navigate(OTHER_WEATHER_SCREEN) {
+
+                                popUpTo(navHostController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }
+
+                    ) {
+                        Text(
+                            text = "14 днів ",
+                            fontSize = 18.sp,
+                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5F)
+                        )
+                    }
                 }
 
             }
@@ -158,10 +181,3 @@ fun containsCurrentTime(dateWeather: String, currentDateTime: String): Boolean {
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    WeatherWiseTheme {
-        HomeScreenWeather()
-    }
-}

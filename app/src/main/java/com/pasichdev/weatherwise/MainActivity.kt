@@ -48,7 +48,7 @@ fun MainScreen(modifier: Modifier = Modifier){
 fun NavigationGraph(navController: NavHostController, modifier: Modifier) {
     NavHost(navController, startDestination = HOME_SCREEN) {
         composable(HOME_SCREEN) {
-            HomeScreenWeather(modifier = modifier)
+            HomeScreenWeather(navController, modifier)
         }
         composable(OTHER_WEATHER_SCREEN) {
             OtherWeather(modifier = modifier)
