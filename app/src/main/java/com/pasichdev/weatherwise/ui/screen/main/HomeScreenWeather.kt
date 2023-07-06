@@ -29,10 +29,10 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.pasichdev.weatherwise.R
-import com.pasichdev.weatherwise.ui.components.HourWeatherCard
-import com.pasichdev.weatherwise.ui.components.ImageWeatherMain
-import com.pasichdev.weatherwise.ui.components.StatusLoadingInfo
-import com.pasichdev.weatherwise.ui.components.WeatherDayInfoDisplay
+import com.pasichdev.weatherwise.ui.screen.main.screen.HourWeatherCard
+import com.pasichdev.weatherwise.ui.screen.main.screen.ImageWeatherMain
+import com.pasichdev.weatherwise.ui.screen.main.screen.StatusLoadingInfo
+import com.pasichdev.weatherwise.ui.screen.main.screen.WeatherDayInfoDisplay
 import com.pasichdev.weatherwise.ui.theme.SystemGradienTwoTest
 import com.pasichdev.weatherwise.ui.theme.SystemTest
 import com.pasichdev.weatherwise.ui.theme.WeatherWiseTheme
@@ -45,7 +45,7 @@ import java.time.format.DateTimeFormatter
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun MainDisplayWeather(modifier: Modifier = Modifier, viewModel: MainViewModel = hiltViewModel()) {
+fun HomeScreenWeather(modifier: Modifier = Modifier, viewModel: MainViewModel = hiltViewModel()) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
     val currentDateTime =
@@ -97,8 +97,7 @@ fun MainDisplayWeather(modifier: Modifier = Modifier, viewModel: MainViewModel =
                 .padding(top = 20.dp)
         ) {
             Row(
-                modifier = Modifier
-                    .padding(bottom = 20.dp),
+                modifier = Modifier.padding(bottom = 20.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
@@ -109,8 +108,7 @@ fun MainDisplayWeather(modifier: Modifier = Modifier, viewModel: MainViewModel =
                     fontSize = 26.sp
                 )
                 Box(
-                    Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.CenterEnd
+                    Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd
                 ) {
                     Text(
                         text = "14 днів ",
@@ -133,8 +131,9 @@ fun MainDisplayWeather(modifier: Modifier = Modifier, viewModel: MainViewModel =
                     val item = hoursList[index]
                     val isToday = containsCurrentTime(item.time, currentDateTime)
 
-                    if (convertToHour(item.time) >= convertToHour(currentDateTime))
-                        HourWeatherCard(weatherHours = item, selected = isToday)
+                    if (convertToHour(item.time) >= convertToHour(currentDateTime)) HourWeatherCard(
+                        weatherHours = item, selected = isToday
+                    )
                     coroutineScope.launch {
                         if (isToday) {
                             lazyListState.scrollToItem(index)
@@ -163,6 +162,6 @@ fun containsCurrentTime(dateWeather: String, currentDateTime: String): Boolean {
 @Composable
 fun GreetingPreview() {
     WeatherWiseTheme {
-        MainDisplayWeather()
+        HomeScreenWeather()
     }
 }

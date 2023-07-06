@@ -1,4 +1,4 @@
-package com.pasichdev.weatherwise.ui.components
+package com.pasichdev.weatherwise.ui.screen.main.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -103,7 +103,7 @@ fun InfoWeatherCard(infoOne: String, infoTwo: String, icon: Int) {
         Text(
             text = infoTwo, style = TextStyle(
                 fontWeight = FontWeight.Light,
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 color = Color.White.copy(alpha = 0.4f)
             )
         )

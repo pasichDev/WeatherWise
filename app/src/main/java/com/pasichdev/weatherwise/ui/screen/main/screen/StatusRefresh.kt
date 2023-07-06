@@ -1,4 +1,4 @@
-package com.pasichdev.weatherwise.ui.components
+package com.pasichdev.weatherwise.ui.screen.main.screen
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
