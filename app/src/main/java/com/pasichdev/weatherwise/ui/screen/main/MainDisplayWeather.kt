@@ -52,7 +52,6 @@ import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-// TODO: 1. Додати суікси для перекладів. 2. Зробити список на всю сторінку 
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable

@@ -20,19 +20,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pasichdev.weatherwise.R
-import com.pasichdev.weatherwise.data.model.ConditionWeather
-import com.pasichdev.weatherwise.data.model.CurrentWeather
 import com.pasichdev.weatherwise.data.model.WeatherCurrentDay
 import com.pasichdev.weatherwise.ui.theme.WeatherWiseTheme
-import com.pasichdev.weatherwise.utils.convertToNewFormat
 import com.pasichdev.weatherwise.utils.getDataUser
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 @Composable
-fun WeatherDayInfoDisplay(modifier: Modifier = Modifier,
-                          currentWeather: WeatherCurrentDay = WeatherCurrentDay()
+fun WeatherDayInfoDisplay(
+    modifier: Modifier = Modifier,
+    currentWeather: WeatherCurrentDay = WeatherCurrentDay()
 ) {
     val current = currentWeather.current
 
@@ -42,7 +37,9 @@ fun WeatherDayInfoDisplay(modifier: Modifier = Modifier,
 
         Row {
             Text(
-                text = current.temp_c.toInt().toString(), fontWeight = FontWeight.Bold, fontSize = 120.sp
+                text = current.temp_c.toInt().toString(),
+                fontWeight = FontWeight.Bold,
+                fontSize = 120.sp
             )
             Text(
                 text = "°",
@@ -51,13 +48,13 @@ fun WeatherDayInfoDisplay(modifier: Modifier = Modifier,
                 color = Color.White.copy(alpha = 0.4f)
             )
         }
-            Text(
-                text = current.condition.text,
-                fontWeight = FontWeight.Light,
-                fontSize = 28.sp
-            )
         Text(
-            text = getDataUser() , modifier.padding(top = 5.dp), style = TextStyle(
+            text = current.condition.text,
+            fontWeight = FontWeight.Light,
+            fontSize = 28.sp
+        )
+        Text(
+            text = getDataUser(), modifier.padding(top = 5.dp), style = TextStyle(
                 fontWeight = FontWeight.Light,
                 fontSize = 18.sp,
                 color = Color.White.copy(alpha = 0.4f)
@@ -70,7 +67,9 @@ fun WeatherDayInfoDisplay(modifier: Modifier = Modifier,
         )
         Row(modifier = modifier.padding(bottom = 20.dp)) {
             InfoWeatherCard(
-                infoOne = current.wind_kph.toString() +  " km/h", infoTwo = stringResource(id = R.string.wind), R.drawable.wind
+                infoOne = stringResource(id = R.string.kmh, current.wind_kph),
+                infoTwo = stringResource(id = R.string.wind),
+                R.drawable.wind
             )
             InfoWeatherCard(
                 infoOne = current.humidity.toString() + "%",
@@ -107,7 +106,6 @@ fun InfoWeatherCard(infoOne: String, infoTwo: String, icon: Int) {
         )
     }
 }
-
 
 
 @Preview(showBackground = true)
