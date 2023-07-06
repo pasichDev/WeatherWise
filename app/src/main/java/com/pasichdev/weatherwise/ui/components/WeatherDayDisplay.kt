@@ -30,6 +30,8 @@ fun WeatherDayInfoDisplay(
     currentWeather: WeatherCurrentDay = WeatherCurrentDay()
 ) {
     val current = currentWeather.current
+    val chanceOfRain = currentWeather.forecast.forecastday[0].day?.daily_chance_of_rain
+
 
     Column(
         verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally
@@ -77,12 +79,13 @@ fun WeatherDayInfoDisplay(
                 R.drawable.humidity
             )
             InfoWeatherCard(
-                infoOne = current.cloud.toString() + "%",
+                infoOne = chanceOfRain.toString() + "%",
                 infoTwo = stringResource(id = R.string.ChanceOfRain),
                 R.drawable.rain
             )
         }
     }
+
 }
 
 
