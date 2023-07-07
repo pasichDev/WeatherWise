@@ -3,8 +3,9 @@
     <string name="thunderstorm">Thunderstorm</string>
     <string name="wind">Wind</string>
     <string name="Humidity">Humidity</string>
-    <string name="ChanceOfRain">Chance of rain</string>
+    <string name="ChanceOfRain">Precipitation</string>
     <string name="Today">Today</string>
     <string name="kmh">%.1f km/h</string>
     <string name="otherDays">14 days</string>
+    <string name="tomorrow">Tomorrow</string>
 </resources>

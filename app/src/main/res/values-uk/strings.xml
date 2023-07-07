@@ -4,8 +4,9 @@
     <string name="thunderstorm">Гроза</string>
     <string name="wind">Вітер</string>
     <string name="Humidity">Вологість</string>
-    <string name="ChanceOfRain">Ймовірність дощу</string>
+    <string name="ChanceOfRain">Опади</string>
     <string name="Today">Сьогодні</string>
     <string name="kmh">%.1f км/г</string>
     <string name="otherDays">14 днів</string>
+    <string name="tomorrow">Завтра</string>
 </resources>

@@ -6,15 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ApiService {
-  // TODO: Реалізувати вибір мови отримання запиту в халежності від мови проистрою!
-/*  @GET("current.json")
-    suspend fun getWeatherCurrentDay(
-      @Query("key") key: String = API_KEY,
-      @Query("q") country: String = "London",
-      @Query("lang") lang: String = "uk",
-    ): WeatherCurrentDay
 
- */
 
   @GET("forecast.json")
   suspend fun getWeatherCurrentDay(
@@ -24,4 +16,11 @@ interface ApiService {
     @Query("days") days: Int = 1
   ): WeatherCurrentDay
 
+  @GET("forecast.json")
+  suspend fun getWeatherOtherDays(
+    @Query("key") key: String = API_KEY,
+    @Query("q") country: String = "London",
+    @Query("lang") lang: String = "uk",
+    @Query("days") days: Int = 14
+  ): WeatherCurrentDay
 }

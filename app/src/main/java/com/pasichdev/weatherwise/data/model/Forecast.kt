@@ -1,8 +1,5 @@
 package com.pasichdev.weatherwise.data.model
 
-import com.google.gson.annotations.SerializedName
-
-//data class Forecast( @field:SerializedName("forecastday") val forecastday: ForecastDay = ForecastDay())
 
 data class Forecast(
     val forecastday: List<ForecastDay> = listOf()
@@ -11,84 +8,84 @@ data class Forecast(
 data class ForecastDay(
     val date: String = "",
     val date_epoch: Long = 0,
-    val day: Day? = null,
-    val astro: Astro? = null,
-    val hour: List<Hour>? = null
+    val day: Day? = Day(),
+    val astro: Astro? = Astro(),
+    val hour: List<Hour>? = emptyList()
 )
 
 data class Day(
-    val maxtemp_c: Double,
-    val maxtemp_f: Double,
-    val mintemp_c: Double,
-    val mintemp_f: Double,
-    val avgtemp_c: Double,
-    val avgtemp_f: Double,
-    val maxwind_mph: Double,
-    val maxwind_kph: Double,
-    val totalprecip_mm: Double,
-    val totalprecip_in: Double,
-    val totalsnow_cm: Double,
-    val avgvis_km: Double,
-    val avgvis_miles: Double,
-    val avghumidity: Double,
-    val daily_will_it_rain: Int,
-    val daily_chance_of_rain: Int,
-    val daily_will_it_snow: Int,
-    val daily_chance_of_snow: Int,
-    val condition: Condition,
-    val uv: Double
+    val maxtemp_c: Double = 0.0,
+    val maxtemp_f: Double = 0.0,
+    val mintemp_c: Double = 0.0,
+    val mintemp_f: Double = 0.0,
+    val avgtemp_c: Double = 0.0,
+    val avgtemp_f: Double = 0.0,
+    val maxwind_mph: Double = 0.0,
+    val maxwind_kph: Double = 0.0,
+    val totalprecip_mm: Double = 0.0,
+    val totalprecip_in: Double = 0.0,
+    val totalsnow_cm: Double = 0.0,
+    val avgvis_km: Double = 0.0,
+    val avgvis_miles: Double = 0.0,
+    val avghumidity: Double = 0.0,
+    val daily_will_it_rain: Int = 0,
+    val daily_chance_of_rain: Int = 0,
+    val daily_will_it_snow: Int = 0,
+    val daily_chance_of_snow: Int = 0,
+    val condition: Condition = Condition(),
+    val uv: Double = 0.0
 )
 
 data class Astro(
-    val sunrise: String,
-    val sunset: String,
-    val moonrise: String,
-    val moonset: String,
-    val moon_phase: String,
-    val moon_illumination: String,
-    val is_moon_up: Int,
-    val is_sun_up: Int
+    val sunrise: String = "",
+    val sunset: String = "",
+    val moonrise: String = "",
+    val moonset: String = "",
+    val moon_phase: String = "",
+    val moon_illumination: String= "",
+    val is_moon_up: Int = 0,
+    val is_sun_up: Int = 0
 )
 
 data class Hour(
-    val time_epoch: Long,
-    val time: String,
-    val temp_c: Double,
-    val temp_f: Double,
-    val is_day: Int,
-    val condition: Condition,
-    val wind_mph: Double,
-    val wind_kph: Double,
-    val wind_degree: Int,
-    val wind_dir: String,
-    val pressure_mb: Double,
-    val pressure_in: Double,
-    val precip_mm: Double,
-    val precip_in: Double,
-    val humidity: Int,
-    val cloud: Int,
-    val feelslike_c: Double,
-    val feelslike_f: Double,
-    val windchill_c: Double,
-    val windchill_f: Double,
-    val heatindex_c: Double,
-    val heatindex_f: Double,
-    val dewpoint_c: Double,
-    val dewpoint_f: Double,
-    val will_it_rain: Int,
-    val chance_of_rain: Int,
-    val will_it_snow: Int,
-    val chance_of_snow: Int,
-    val vis_km: Double,
-    val vis_miles: Double,
-    val gust_mph: Double,
-    val gust_kph: Double,
-    val uv: Double
+    val time_epoch: Long = 0,
+    val time: String = "",
+    val temp_c: Double = 0.0,
+    val temp_f: Double  = 0.0,
+    val is_day: Int = 0,
+    val condition: Condition = Condition(),
+    val wind_mph: Double  = 0.0,
+    val wind_kph: Double = 0.0,
+    val wind_degree: Int= 0,
+    val wind_dir: String = "",
+    val pressure_mb: Double = 0.0,
+    val pressure_in: Double = 0.0,
+    val precip_mm: Double = 0.0,
+    val precip_in: Double = 0.0,
+    val humidity: Int= 0,
+    val cloud: Int= 0,
+    val feelslike_c: Double = 0.0,
+    val feelslike_f: Double = 0.0,
+    val windchill_c: Double = 0.0,
+    val windchill_f: Double = 0.0,
+    val heatindex_c: Double = 0.0,
+    val heatindex_f: Double = 0.0,
+    val dewpoint_c: Double = 0.0,
+    val dewpoint_f: Double = 0.0,
+    val will_it_rain: Int = 0,
+    val chance_of_rain: Int = 0,
+    val will_it_snow: Int = 0,
+    val chance_of_snow: Int = 0,
+    val vis_km: Double= 0.0,
+    val vis_miles: Double= 0.0,
+    val gust_mph: Double= 0.0,
+    val gust_kph: Double= 0.0,
+    val uv: Double= 0.0
 )
 
 data class Condition(
-    val text: String,
-    val icon: String,
-    val code: Int
+    val text: String = "",
+    val icon: String = "",
+    val code: Int = 0
 )
 

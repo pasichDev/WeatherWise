@@ -10,4 +10,8 @@ class AppRepositoryImpl @Inject constructor(
     override suspend fun getWeatherCurrentDay(country: String): WeatherCurrentDay {
         return apiService.getWeatherCurrentDay(country = country)
     }
+
+    override suspend fun getWeatherOtherDays(country: String): WeatherCurrentDay {
+        return apiService.getWeatherOtherDays(country = country)
+    }
 }

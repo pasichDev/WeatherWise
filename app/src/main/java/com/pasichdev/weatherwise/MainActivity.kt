@@ -38,7 +38,7 @@ fun NavigationGraph(navController: NavHostController) {
             HomeScreenWeather(navController)
         }
         composable(OTHER_WEATHER_SCREEN) {
-            OtherWeather()
+            OtherWeather(navController = navController)
 
 
         }
