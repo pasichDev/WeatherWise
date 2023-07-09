@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace 'com.pasichdev.weatherwise'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.pasichdev.weatherwise"
         minSdk 26
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -57,12 +57,13 @@ dependencies {
     implementation 'androidx.compose.ui:ui'
     implementation 'androidx.compose.ui:ui-graphics'
     implementation 'androidx.compose.ui:ui-tooling-preview'
-    implementation 'androidx.compose.material3:material3'
+    implementation 'androidx.compose.material3:material3-android:1.2.0-alpha03'
     implementation "androidx.navigation:navigation-compose:2.6.0"
     implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.6.1'
     implementation "androidx.compose.ui:ui-tooling:1.4.3"
-
     implementation 'com.google.accompanist:accompanist-systemuicontroller:0.27.0'
+
+
 
     // AndroidX Lifecycle
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1"

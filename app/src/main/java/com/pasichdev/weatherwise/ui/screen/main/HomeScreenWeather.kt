@@ -34,6 +34,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.pasichdev.weatherwise.R
 import com.pasichdev.weatherwise.ui.OTHER_WEATHER_SCREEN
+import com.pasichdev.weatherwise.ui.SEARCH_CITY_WEATHER_SCREEN
 import com.pasichdev.weatherwise.ui.screen.main.screen.HourWeatherCard
 import com.pasichdev.weatherwise.ui.screen.main.screen.ImageWeatherMain
 import com.pasichdev.weatherwise.ui.screen.main.screen.StatusLoadingInfo
@@ -60,7 +61,26 @@ fun HomeScreenWeather(
     val state by viewModel.state.collectAsStateWithLifecycle()
 
 
-    Scaffold(topBar = { ToolbarMainActivity() }) {
+    Scaffold(topBar = {
+        ToolbarMainActivity(listener = object : ToolBarMainListener {
+            override fun searchCity() {
+                navHostController.navigate(SEARCH_CITY_WEATHER_SCREEN) {
+
+                    popUpTo(navHostController.graph.findStartDestination().id) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+
+
+            }
+
+            override fun detailNews() {
+                TODO("Not yet implemented")
+            }
+        })
+    }) {
 
         Column(
             modifier = modifier
@@ -119,9 +139,7 @@ fun InfoCurrentWeather(modifier: Modifier = Modifier, state: MainState) {
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun TodayWeather(
-    navHostController: NavHostController,
-    modifier: Modifier = Modifier,
-    state: MainState
+    navHostController: NavHostController, modifier: Modifier = Modifier, state: MainState
 ) {
     val currentDateTime =
         LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
@@ -147,17 +165,16 @@ fun TodayWeather(
             Box(
                 Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd
             ) {
-                TextButton(
-                    onClick = {
-                        navHostController.navigate(OTHER_WEATHER_SCREEN) {
+                TextButton(onClick = {
+                    navHostController.navigate(OTHER_WEATHER_SCREEN) {
 
-                            popUpTo(navHostController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
+                        popUpTo(navHostController.graph.findStartDestination().id) {
+                            saveState = true
                         }
+                        launchSingleTop = true
+                        restoreState = true
                     }
+                }
 
                 ) {
                     Text(

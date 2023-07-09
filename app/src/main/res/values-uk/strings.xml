@@ -9,4 +9,5 @@
     <string name="kmh">%.1f км/г</string>
     <string name="otherDays">14 днів</string>
     <string name="tomorrow">Завтра</string>
+    <string name="hintCitySearch">Введіть назву міста</string>
 </resources>

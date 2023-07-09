@@ -10,8 +10,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.pasichdev.weatherwise.ui.HOME_SCREEN
 import com.pasichdev.weatherwise.ui.OTHER_WEATHER_SCREEN
+import com.pasichdev.weatherwise.ui.SEARCH_CITY_WEATHER_SCREEN
 import com.pasichdev.weatherwise.ui.screen.main.HomeScreenWeather
 import com.pasichdev.weatherwise.ui.screen.otherweather.OtherWeather
+import com.pasichdev.weatherwise.ui.screen.searchCity.SearchCity
 import com.pasichdev.weatherwise.ui.theme.WeatherWiseTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,10 +41,10 @@ fun NavigationGraph(navController: NavHostController) {
         }
         composable(OTHER_WEATHER_SCREEN) {
             OtherWeather(navController = navController)
-
-
         }
-
+        composable(SEARCH_CITY_WEATHER_SCREEN) {
+            SearchCity(navController = navController)
+        }
 
     }
 }
