@@ -1,27 +1,35 @@
 package com.pasichdev.weatherwise.ui.screen.main
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberBottomSheetScaffoldState
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -47,11 +55,11 @@ import com.pasichdev.weatherwise.ui.theme.SystemTest
 import com.pasichdev.weatherwise.utils.convertToDay
 import com.pasichdev.weatherwise.utils.convertToHour
 import kotlinx.coroutines.launch
-import java.net.URLDecoder
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("CoroutineCreationDuringComposition", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -62,48 +70,64 @@ fun HomeScreenWeather(
 ) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val scaffoldState = rememberBottomSheetScaffoldState()
+
+    var openBottomSheet by rememberSaveable { mutableStateOf(false) }
+    val skipPartiallyExpanded by remember { mutableStateOf(false) }
+    val edgeToEdgeEnabled by remember { mutableStateOf(false) }
+    val bottomSheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = skipPartiallyExpanded
+    )
 
 
-
-
-    BottomSheetScaffold(scaffoldState = scaffoldState,
-        sheetShape = RoundedCornerShape(20.dp),
-        sheetContent = {
-            BottomSheetSearchLocation(searchText = "",
-                locations = state.listCityWeather,
-                onLocationSelected = { },
-                onLocationRefresh = { viewModel.fetchResultLocationSearch(URLDecoder.decode(it, "UTF-8")) }
-            )
-        }) {
-        Scaffold(topBar = {
-            ToolbarMainActivity(listener = object : ToolBarMainListener {
+    Scaffold(topBar = {
+        ToolbarMainActivity(locationWeather = state.locationWeather,
+            listener = object : ToolBarMainListener {
                 override fun searchCity() {
 
-
+                    openBottomSheet = !openBottomSheet
                 }
 
                 override fun detailNews() {
 
                 }
             })
-        }) {
+    }) { it ->
 
-            Column(
-                modifier = modifier
-                    .padding(it)
-                    .fillMaxHeight()
-                    .fillMaxWidth()
-
-
-            ) {
-                InfoCurrentWeather(state = state, refreshConnected = { viewModel.updateFetch() })
-                TodayWeather(navHostController = navHostController, state = state)
+        Column(
+            modifier = modifier
+                .padding(it)
+                .fillMaxHeight()
+                .fillMaxWidth()
 
 
+        ) {
+            InfoCurrentWeather(state = state, refreshConnected = { viewModel.updateFetch() })
+            TodayWeather(navHostController = navHostController, state = state)
+
+
+            if (openBottomSheet) {
+                val windowInsets =
+                    if (edgeToEdgeEnabled) WindowInsets(0) else BottomSheetDefaults.windowInsets
+
+                ModalBottomSheet(
+                    onDismissRequest = { openBottomSheet = false },
+                    sheetState = bottomSheetState,
+                    windowInsets = windowInsets
+                ) {
+                    BottomSheetSearchLocation(searchText = "",
+                        locations = state.listCityWeather,
+                        onLocationSelected = {
+                            viewModel.updateLocationWeather(it.name)
+                            openBottomSheet = false
+                        },
+                        onLocationRefresh = {
+                            viewModel.fetchResultLocationSearch(it)
+                        })
+                }
             }
 
         }
+
     }
 
 

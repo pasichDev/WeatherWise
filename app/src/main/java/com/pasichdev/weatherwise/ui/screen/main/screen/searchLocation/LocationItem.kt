@@ -1,5 +1,6 @@
 package com.pasichdev.weatherwise.ui.screen.main.screen.searchLocation
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,9 +18,10 @@ import com.pasichdev.weatherwise.R
 import com.pasichdev.weatherwise.data.model.Location
 
 @Composable
-fun LocationItem(modifier: Modifier = Modifier, location: Location) {
+fun LocationItem(modifier: Modifier = Modifier, location: Location, clickItem: () -> Unit) {
 
     Row(
+        modifier = modifier.clickable(enabled = true, onClick = clickItem),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {

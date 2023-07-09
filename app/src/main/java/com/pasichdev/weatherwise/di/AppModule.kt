@@ -38,23 +38,18 @@ class AppModules {
 
     @Provides
     fun provideAppRepository(
-        apiService: ApiService,
-        localDatabase: LocalDatabase
+        apiService: ApiService, localDatabase: LocalDatabase
     ): AppRepository = AppRepositoryImpl(
-        apiService = apiService,
-        localDatabase = localDatabase
+        apiService = apiService, localDatabase = localDatabase
     )
 
     @Provides
     @Singleton
     fun provideDb(application: Application): LocalDatabase {
         return Room.databaseBuilder(
-            application,
-            LocalDatabase::class.java,
-            NAME_DB
+            application, LocalDatabase::class.java, NAME_DB
         ).build()
     }
-
 
 
 }

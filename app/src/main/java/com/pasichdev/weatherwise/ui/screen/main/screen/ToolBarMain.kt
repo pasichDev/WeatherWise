@@ -22,10 +22,11 @@ import com.pasichdev.weatherwise.R
 import com.pasichdev.weatherwise.ui.screen.main.ToolBarMainListener
 import com.pasichdev.weatherwise.ui.theme.SystemGradienTwoTest
 import com.pasichdev.weatherwise.ui.theme.WeatherWiseTheme
+import com.pasichdev.weatherwise.utils.DEFAULT_LOCATION_WEATHER
 
 
 @Composable
-fun ToolbarMainActivity(modifier: Modifier = Modifier, listener: ToolBarMainListener) {
+fun ToolbarMainActivity(modifier: Modifier = Modifier, locationWeather: String = DEFAULT_LOCATION_WEATHER, listener: ToolBarMainListener) {
 
     Row(
         modifier = modifier.background(color = SystemGradienTwoTest),
@@ -54,7 +55,7 @@ fun ToolbarMainActivity(modifier: Modifier = Modifier, listener: ToolBarMainList
                         tint = MaterialTheme.colorScheme.onBackground
                     )
                     Text(
-                        text = "Рівне",
+                        text = locationWeather,
                         fontWeight = FontWeight.Bold,
                         fontSize = 26.sp,
                         color = MaterialTheme.colorScheme.onBackground

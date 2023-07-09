@@ -2,6 +2,7 @@ package com.pasichdev.weatherwise.ui.screen.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pasichdev.weatherwise.data.DataStoreManager
 import com.pasichdev.weatherwise.data.repository.AppRepository
 import com.pasichdev.weatherwise.utils.DATA_REFRESH_STATUS_NO_CONNECTED
 import com.pasichdev.weatherwise.utils.DATA_REFRESH_STATUS_UPDATED
@@ -9,14 +10,16 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.net.URLDecoder
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private var appRepository: AppRepository,
+    private var appRepository: AppRepository, private val dataStoreManager: DataStoreManager
 ) : ViewModel() {
 
 
@@ -25,8 +28,22 @@ class MainViewModel @Inject constructor(
 
 
     init {
+        fetchLocationWeather()
         fetchWeatherLocalDatabase()
         fetchWeatherCurrentDay()
+    }
+
+
+    fun fetchLocationWeather() {
+        viewModelScope.launch {
+            dataStoreManager.userPreferencesFlow.collect {
+                _state.update { state ->
+                    state.copy(
+                        locationWeather = it.locationWeather
+                    )
+                }
+            }
+        }
     }
 
     private fun fetchWeatherLocalDatabase() {
@@ -43,8 +60,11 @@ class MainViewModel @Inject constructor(
     }
 
     fun updateFetch() = fetchWeatherCurrentDay()
+    fun updateLocationWeather(locationWeather: String) {
+        viewModelScope.launch { dataStoreManager.saveLocationWeather(locationWeather) }
+    }
 
-     fun fetchResultLocationSearch(location: String) {
+    fun fetchResultLocationSearch(location: String) {
         viewModelScope.launch {
             try {
                 _state.update { state ->
@@ -59,9 +79,11 @@ class MainViewModel @Inject constructor(
     }
 
     private fun fetchWeatherCurrentDay() {
-        viewModelScope.launch {
+        state.distinctUntilChangedBy { homeState ->
+            homeState.locationWeather
+        }.map {
             try {
-                appRepository.updateWeatherLocal(appRepository.getWeatherCurrentDay(country = "Rivne"))
+                appRepository.updateWeatherLocal(appRepository.getWeatherCurrentDay(country = state.value.locationWeather))
                 _state.update { state ->
                     state.copy(
                         dataRefreshStatus = DATA_REFRESH_STATUS_UPDATED
@@ -74,6 +96,7 @@ class MainViewModel @Inject constructor(
                     )
                 }
             }
-        }
+        }.launchIn(viewModelScope)
+
     }
 }
