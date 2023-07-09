@@ -43,7 +43,6 @@ import com.pasichdev.weatherwise.ui.theme.SystemGradienTwoTest
 import com.pasichdev.weatherwise.ui.theme.SystemTest
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchCity(
     modifier: Modifier = Modifier,
