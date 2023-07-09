@@ -80,7 +80,7 @@ fun WeatherTomorrowDisplay(
 
                 if (tomorrowDay != null) {
                     Text(
-                        text = tomorrowDay.condition.text,
+                        text = tomorrowDay.condition.conditionWeatherText,
                         modifier.padding(top = 5.dp),
                         style = TextStyle(
                             fontWeight = FontWeight.Normal,

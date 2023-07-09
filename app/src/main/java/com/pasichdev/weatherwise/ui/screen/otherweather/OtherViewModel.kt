@@ -22,19 +22,18 @@ class OtherViewModel @Inject constructor(
 
 
     init {
-        fetchWeatherCurrentDay("Rivne")
+        fetchWeatherLocalDatabase()
     }
 
-    private fun fetchWeatherCurrentDay(country: String) {
+    private fun fetchWeatherLocalDatabase() {
         viewModelScope.launch {
-            try {
+            appRepository.getWeather().collect { weather ->
                 _state.update { state ->
                     state.copy(
-                        currentDay = appRepository.getWeatherOtherDays(country = country)
+                        currentDay = weather
                     )
                 }
-            } catch (e: Exception) {
-                // Обробка помилок
+
             }
         }
     }

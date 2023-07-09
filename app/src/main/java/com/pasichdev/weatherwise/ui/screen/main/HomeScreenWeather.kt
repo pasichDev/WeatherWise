@@ -90,7 +90,7 @@ fun HomeScreenWeather(
 
 
         ) {
-            InfoCurrentWeather(state = state)
+            InfoCurrentWeather(state = state, refreshConnected = { viewModel.updateFetch() })
             TodayWeather(navHostController = navHostController, state = state)
 
 
@@ -102,7 +102,7 @@ fun HomeScreenWeather(
 }
 
 @Composable
-fun InfoCurrentWeather(modifier: Modifier = Modifier, state: MainState) {
+fun InfoCurrentWeather(modifier: Modifier = Modifier, state: MainState,  refreshConnected: () -> Unit = {}) {
 
     Box(
         modifier = Modifier
@@ -126,7 +126,9 @@ fun InfoCurrentWeather(modifier: Modifier = Modifier, state: MainState) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            StatusLoadingInfo(modifier = modifier)
+            StatusLoadingInfo(modifier = modifier,
+                dataRefreshStatus = state.dataRefreshStatus,
+                refreshConnected = refreshConnected)
             ImageWeatherMain()
             state.currentDay?.let { WeatherDayInfoDisplay(currentWeather = it) }
 
@@ -191,7 +193,7 @@ fun TodayWeather(
     }
 
 
-    val hoursList = state.currentDay?.forecast?.forecastday?.get(0)?.hour
+    val hoursList = state.currentDay?.forecast?.forecastdays?.get(0)?.hour
 
     LazyRow(modifier = Modifier.padding(start = 40.dp), state = lazyListState) {
         if (hoursList != null) {

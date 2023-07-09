@@ -9,5 +9,12 @@
     <string name="kmh">%.1f км/г</string>
     <string name="otherDays">14 днів</string>
     <string name="tomorrow">Завтра</string>
+    <string name="feelsLike">Відчувається як  %1d°</string>
     <string name="hintCitySearch">Введіть назву міста</string>
+
+    <string name="dataRefreshUpdate">Актуальна інформація</string>
+    <string name="dataRefreshOld">Данні застаріли</string>
+    <string name="dataRefreshUpdating">Завнтаження актуальних данних</string>
+    <string name="dataRefreshNoConnected">Данні застаріли, немає підключення</string>
+
 </resources>

@@ -3,6 +3,8 @@ package com.pasichdev.weatherwise.ui.screen.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pasichdev.weatherwise.data.repository.AppRepository
+import com.pasichdev.weatherwise.utils.DATA_REFRESH_STATUS_NO_CONNECTED
+import com.pasichdev.weatherwise.utils.DATA_REFRESH_STATUS_UPDATED
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,19 +24,40 @@ class MainViewModel @Inject constructor(
 
 
     init {
-        fetchWeatherCurrentDay("Rivne")
+        fetchWeatherLocalDatabase()
+        fetchWeatherCurrentDay()
     }
 
-    private fun fetchWeatherCurrentDay(country: String) {
+    private fun fetchWeatherLocalDatabase() {
         viewModelScope.launch {
-            try {
+            appRepository.getWeather().collect { weather ->
                 _state.update { state ->
                     state.copy(
-                        currentDay = appRepository.getWeatherCurrentDay(country = country)
+                        currentDay = weather
+                    )
+                }
+
+            }
+        }
+    }
+
+    fun updateFetch() = fetchWeatherCurrentDay()
+
+    private fun fetchWeatherCurrentDay() {
+        viewModelScope.launch {
+            try {
+                appRepository.updateWeatherLocal(appRepository.getWeatherCurrentDay(country = "Rivne"))
+                _state.update { state ->
+                    state.copy(
+                        dataRefreshStatus = DATA_REFRESH_STATUS_UPDATED
                     )
                 }
             } catch (e: Exception) {
-                // Обробка помилок
+                _state.update { state ->
+                    state.copy(
+                        dataRefreshStatus = DATA_REFRESH_STATUS_NO_CONNECTED
+                    )
+                }
             }
         }
     }

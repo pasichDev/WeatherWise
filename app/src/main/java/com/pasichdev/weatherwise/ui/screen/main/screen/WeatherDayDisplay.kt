@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pasichdev.weatherwise.R
-import com.pasichdev.weatherwise.data.model.WeatherCurrentDay
+import com.pasichdev.weatherwise.data.model.Weather
 import com.pasichdev.weatherwise.ui.screen.components.InfoWeatherCard
 import com.pasichdev.weatherwise.ui.theme.WeatherWiseTheme
 import com.pasichdev.weatherwise.utils.getDataUser
@@ -26,10 +26,10 @@ import com.pasichdev.weatherwise.utils.getDataUser
 @Composable
 fun WeatherDayInfoDisplay(
     modifier: Modifier = Modifier,
-    currentWeather: WeatherCurrentDay = WeatherCurrentDay()
+    currentWeather: Weather = Weather()
 ) {
     val current = currentWeather.current
-    val chanceOfRain = currentWeather.forecast.forecastday[0].day?.daily_chance_of_rain
+    val chanceOfRain = currentWeather.forecast.forecastdays?.get(0)?.day?.daily_chance_of_rain
 
 
     Column(
@@ -50,14 +50,21 @@ fun WeatherDayInfoDisplay(
             )
         }
         Text(
-            text = current.condition.text,
+            text = stringResource(id = R.string.feelsLike, current.feelslike_c.toInt()), modifier.padding(vertical = 5.dp), style = TextStyle(
+                fontWeight = FontWeight.Light,
+                fontSize = 18.sp,
+                color = Color.White.copy(alpha = 0.4f)
+            )
+        )
+        Text(
+            text = current.condition.conditionWeatherText,
             fontWeight = FontWeight.Light,
             fontSize = 28.sp
         )
         Text(
             text = getDataUser(), modifier.padding(top = 5.dp), style = TextStyle(
                 fontWeight = FontWeight.Light,
-                fontSize = 18.sp,
+                fontSize = 20.sp,
                 color = Color.White.copy(alpha = 0.4f)
             )
         )

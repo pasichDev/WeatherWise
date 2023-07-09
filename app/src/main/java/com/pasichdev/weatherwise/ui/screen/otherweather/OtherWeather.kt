@@ -1,5 +1,7 @@
 package com.pasichdev.weatherwise.ui.screen.otherweather
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -53,7 +55,7 @@ fun OtherWeather(modifier: Modifier = Modifier, navController: NavHostController
 
         ) {
             InfoTomorrowWeather(state = state)
-            state.currentDay?.forecast?.forecastday?.let { list -> NextDaysWeather(listDays = list) }
+            state.currentDay?.forecast?.forecastdays?.let { list -> NextDaysWeather(listDays = list) }
 
 
         }
@@ -88,11 +90,16 @@ fun InfoTomorrowWeather(modifier: Modifier = Modifier, state: OtherState) {
         ) {
 
 
-            WeatherTomorrowDisplay(
-                tomorrowWeather = state.currentDay?.forecast?.forecastday?.get(1) ?: ForecastDay()
-            )
+            state.currentDay?.forecast?.forecastdays?.let {
+                Log.wtf(TAG, "InfoTomorrowWeather: "+it.size )
+                Log.wtf(TAG, "InfoTomorrowWeather: "+it.get(0).toString() )
+                if (it.size >= 2) {
+                    WeatherTomorrowDisplay(tomorrowWeather = it[0])
+                } else {
+                    // Handle the case when there are not enough forecast days
+                }
+            }
         }
-
 
     }
 }
@@ -109,8 +116,8 @@ fun NextDaysWeather(listDays: List<ForecastDay>) {
                 if (dayWeather != null) {
                     NextDayItem(
                         dayData = listDays[index].date,
-                        iconWeatherDay = dayWeather.condition.icon,
-                        conditionWeatherDay = dayWeather.condition.text,
+                        iconWeatherDay = dayWeather.condition.conditionWeatherIcon,
+                        conditionWeatherDay = dayWeather.condition.conditionWeatherText,
                         maxTemp = dayWeather.maxtemp_c.toInt(),
                         minTemp = dayWeather.mintemp_c.toInt()
                     )

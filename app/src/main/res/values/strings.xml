@@ -8,5 +8,11 @@
     <string name="kmh">%.1f km/h</string>
     <string name="otherDays">14 days</string>
     <string name="tomorrow">Tomorrow</string>
+    <string name="feelsLike">It feels like %1d°</string>
     <string name="hintCitySearch">Enter the name of the city</string>
+
+    <string name="dataRefreshUpdate">Update information</string>
+    <string name="dataRefreshOld">Data is out of date</string>
+    <string name="dataRefreshUpdating">Updating data</string>
+    <string name="dataRefreshNoConnected">Data is out of date, no connection</string>
 </resources>

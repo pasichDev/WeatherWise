@@ -1,9 +1,13 @@
 package com.pasichdev.weatherwise.di
 
+import android.app.Application
+import androidx.room.Room
+import com.pasichdev.weatherwise.data.LocalDatabase
 import com.pasichdev.weatherwise.data.network.ApiService
 import com.pasichdev.weatherwise.data.repository.AppRepository
 import com.pasichdev.weatherwise.data.repository.AppRepositoryImpl
 import com.pasichdev.weatherwise.utils.API_URL
+import com.pasichdev.weatherwise.utils.NAME_DB
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,6 +16,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
 
 @Module
@@ -33,8 +38,23 @@ class AppModules {
 
     @Provides
     fun provideAppRepository(
-        apiService: ApiService
+        apiService: ApiService,
+        localDatabase: LocalDatabase
     ): AppRepository = AppRepositoryImpl(
-        apiService = apiService
+        apiService = apiService,
+        localDatabase = localDatabase
     )
+
+    @Provides
+    @Singleton
+    fun provideDb(application: Application): LocalDatabase {
+        return Room.databaseBuilder(
+            application,
+            LocalDatabase::class.java,
+            NAME_DB
+        ).build()
+    }
+
+
+
 }
