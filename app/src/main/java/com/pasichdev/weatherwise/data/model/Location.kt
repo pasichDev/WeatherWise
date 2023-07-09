@@ -4,8 +4,7 @@ import androidx.room.Entity
 
 @Entity
 data class Location(
-    val LocationId: Int = 1,
-    val nameCity: String = "",
+    val name: String = "",
     val region: String = "",
     val country: String = "",
     val lat: String = "",

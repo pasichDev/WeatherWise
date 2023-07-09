@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.net.URLDecoder
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,6 +43,20 @@ class MainViewModel @Inject constructor(
     }
 
     fun updateFetch() = fetchWeatherCurrentDay()
+
+     fun fetchResultLocationSearch(location: String) {
+        viewModelScope.launch {
+            try {
+                _state.update { state ->
+                    state.copy(
+                        listCityWeather = appRepository.getResultSearchCity(location)
+                    )
+                }
+            } catch (_: Exception) {
+
+            }
+        }
+    }
 
     private fun fetchWeatherCurrentDay() {
         viewModelScope.launch {

@@ -12,11 +12,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -34,17 +36,18 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.pasichdev.weatherwise.R
 import com.pasichdev.weatherwise.ui.OTHER_WEATHER_SCREEN
-import com.pasichdev.weatherwise.ui.SEARCH_CITY_WEATHER_SCREEN
 import com.pasichdev.weatherwise.ui.screen.main.screen.HourWeatherCard
 import com.pasichdev.weatherwise.ui.screen.main.screen.ImageWeatherMain
 import com.pasichdev.weatherwise.ui.screen.main.screen.StatusLoadingInfo
 import com.pasichdev.weatherwise.ui.screen.main.screen.ToolbarMainActivity
 import com.pasichdev.weatherwise.ui.screen.main.screen.WeatherDayInfoDisplay
+import com.pasichdev.weatherwise.ui.screen.main.screen.searchLocation.BottomSheetSearchLocation
 import com.pasichdev.weatherwise.ui.theme.SystemGradienTwoTest
 import com.pasichdev.weatherwise.ui.theme.SystemTest
 import com.pasichdev.weatherwise.utils.convertToDay
 import com.pasichdev.weatherwise.utils.convertToHour
 import kotlinx.coroutines.launch
+import java.net.URLDecoder
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -59,50 +62,57 @@ fun HomeScreenWeather(
 ) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val scaffoldState = rememberBottomSheetScaffoldState()
 
 
-    Scaffold(topBar = {
-        ToolbarMainActivity(listener = object : ToolBarMainListener {
-            override fun searchCity() {
-                navHostController.navigate(SEARCH_CITY_WEATHER_SCREEN) {
 
-                    popUpTo(navHostController.graph.findStartDestination().id) {
-                        saveState = true
-                    }
-                    launchSingleTop = true
-                    restoreState = true
+
+    BottomSheetScaffold(scaffoldState = scaffoldState,
+        sheetShape = RoundedCornerShape(20.dp),
+        sheetContent = {
+            BottomSheetSearchLocation(searchText = "",
+                locations = state.listCityWeather,
+                onLocationSelected = { },
+                onLocationRefresh = { viewModel.fetchResultLocationSearch(URLDecoder.decode(it, "UTF-8")) }
+            )
+        }) {
+        Scaffold(topBar = {
+            ToolbarMainActivity(listener = object : ToolBarMainListener {
+                override fun searchCity() {
+
+
                 }
 
+                override fun detailNews() {
+
+                }
+            })
+        }) {
+
+            Column(
+                modifier = modifier
+                    .padding(it)
+                    .fillMaxHeight()
+                    .fillMaxWidth()
+
+
+            ) {
+                InfoCurrentWeather(state = state, refreshConnected = { viewModel.updateFetch() })
+                TodayWeather(navHostController = navHostController, state = state)
+
 
             }
-
-            override fun detailNews() {
-                TODO("Not yet implemented")
-            }
-        })
-    }) {
-
-        Column(
-            modifier = modifier
-                .padding(it)
-                .fillMaxHeight()
-                .fillMaxWidth()
-
-
-        ) {
-            InfoCurrentWeather(state = state, refreshConnected = { viewModel.updateFetch() })
-            TodayWeather(navHostController = navHostController, state = state)
-
 
         }
-
     }
 
 
 }
 
 @Composable
-fun InfoCurrentWeather(modifier: Modifier = Modifier, state: MainState,  refreshConnected: () -> Unit = {}) {
+fun InfoCurrentWeather(
+    modifier: Modifier = Modifier, state: MainState, refreshConnected: () -> Unit = {}
+) {
 
     Box(
         modifier = Modifier
@@ -126,9 +136,11 @@ fun InfoCurrentWeather(modifier: Modifier = Modifier, state: MainState,  refresh
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            StatusLoadingInfo(modifier = modifier,
+            StatusLoadingInfo(
+                modifier = modifier,
                 dataRefreshStatus = state.dataRefreshStatus,
-                refreshConnected = refreshConnected)
+                refreshConnected = refreshConnected
+            )
             ImageWeatherMain()
             state.currentDay?.let { WeatherDayInfoDisplay(currentWeather = it) }
 

@@ -12,6 +12,8 @@ class AppRepositoryImpl @Inject constructor(
     override suspend fun getWeatherCurrentDay(country: String) =
         apiService.getWeatherCurrentDay(country = country)
 
+    override suspend fun getResultSearchCity(location: String) = apiService.getSearchLocation(nameCity = location)
+
     override fun getWeather() = localDatabase.weatherDao.getWeather()
 
     override suspend fun updateWeatherLocal(weather: Weather) =
