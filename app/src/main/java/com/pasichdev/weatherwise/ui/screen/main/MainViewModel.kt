@@ -10,6 +10,7 @@ import com.pasichdev.weatherwise.utils.DATA_REFRESH_STATUS_NO_CONNECTED
 import com.pasichdev.weatherwise.utils.DATA_REFRESH_STATUS_UPDATED
 import com.pasichdev.weatherwise.utils.getLocationParam
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,12 +33,17 @@ class MainViewModel @Inject constructor(
 
 
     init {
-        fetchLocationWeather()
-        fetchWeatherLocalDatabase()
-        fetchWeatherCurrentDay()
+
+        viewModelScope.launch {
+            fetchLocationWeather()
+            withContext(Dispatchers.Default) { fetchWeatherLocalDatabase() }
+            withContext(Dispatchers.Default) { fetchWeatherCurrentDay() }
+
+        }
+
     }
 
-    private fun clearListCity(){
+    private fun clearListCity() {
         _state.value.listCityWeather = emptyList()
     }
 
@@ -94,15 +101,14 @@ class MainViewModel @Inject constructor(
     }
 
     private fun fetchWeatherCurrentDay() {
+        fetchLocationWeather()
         state.distinctUntilChangedBy { homeState ->
             homeState.locationWeather
         }.map {
             try {
                 appRepository.updateWeatherLocal(
                     appRepository.getWeatherCurrentDay(
-                        country = getLocationParam(
-                            _state.value.locationWeather
-                        )
+                        country = getLocationParam(_state.value.locationWeather)
                     )
                 )
                 _state.update { state ->
