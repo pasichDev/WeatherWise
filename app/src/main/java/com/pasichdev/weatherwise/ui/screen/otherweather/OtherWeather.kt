@@ -1,7 +1,5 @@
 package com.pasichdev.weatherwise.ui.screen.otherweather
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.pasichdev.weatherwise.data.model.ForecastDay
 import com.pasichdev.weatherwise.ui.screen.otherweather.screen.NextDayItem
 import com.pasichdev.weatherwise.ui.screen.otherweather.screen.ToolbarOther
@@ -31,20 +28,25 @@ import com.pasichdev.weatherwise.ui.screen.otherweather.screen.WeatherTomorrowDi
 import com.pasichdev.weatherwise.ui.theme.SystemGradienTwoTest
 import com.pasichdev.weatherwise.ui.theme.SystemTest
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OtherWeather(modifier: Modifier = Modifier, navController: NavHostController, viewModel: OtherViewModel = hiltViewModel()) {
+fun OtherWeather(
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    viewModel: OtherViewModel = hiltViewModel()
+) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    Scaffold(topBar = { ToolbarOther(listener = object : ToolBarListener{
-        override fun back() {
-          navController.popBackStack()
-        }
+    Scaffold(topBar = {
+        ToolbarOther(listener = object : ToolBarListener {
+            override fun back() {
+                navController.popBackStack()
+            }
 
-        override fun more() {
-            TODO("Not yet implemented")
-        }
-    }) }) {
+            override fun more() {
+                TODO("Not yet implemented")
+            }
+        })
+    }) {
 
         Column(
             modifier = modifier
@@ -91,13 +93,9 @@ fun InfoTomorrowWeather(modifier: Modifier = Modifier, state: OtherState) {
 
 
             state.currentDay?.forecast?.forecastdays?.let {
-                Log.wtf(TAG, "InfoTomorrowWeather: "+it.size )
-                Log.wtf(TAG, "InfoTomorrowWeather: "+it.get(0).toString() )
-                if (it.size >= 2) {
-                    WeatherTomorrowDisplay(tomorrowWeather = it[0])
-                } else {
-                    // Handle the case when there are not enough forecast days
-                }
+
+                WeatherTomorrowDisplay(tomorrowWeather = it[0])
+
             }
         }
 

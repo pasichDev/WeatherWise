@@ -2,8 +2,10 @@ package com.pasichdev.weatherwise.ui.screen.otherweather.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Divider
@@ -27,8 +29,7 @@ import com.pasichdev.weatherwise.ui.theme.WeatherWiseTheme
 
 @Composable
 fun WeatherTomorrowDisplay(
-    modifier: Modifier = Modifier,
-    tomorrowWeather: ForecastDay = ForecastDay()
+    modifier: Modifier = Modifier, tomorrowWeather: ForecastDay = ForecastDay()
 ) {
     val tomorrowDay = tomorrowWeather.day
 
@@ -38,56 +39,65 @@ fun WeatherTomorrowDisplay(
     ) {
 
         Row(
-            modifier = modifier.padding(vertical = 20.dp),
+            modifier = modifier
+                .padding(vertical = 20.dp)
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
 
-            Image(
-                painter = painterResource(id = R.drawable.weather_test_big),
-                contentDescription = "WeatherIcon",
-                modifier = modifier
-                    .padding(horizontal = 20.dp)
-                    .size(150.dp)
-            )
-            Column {
-                Text(
-                    text = stringResource(id = R.string.tomorrow),
-                    fontWeight = FontWeight.Light,
-                    fontSize = 28.sp
+            Box(
+                modifier = Modifier.weight(1f), contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.sun),
+                    contentDescription = "WeatherIcon",
+                    modifier = modifier.size(150.dp)
                 )
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    if (tomorrowDay != null) {
-                        Text(
-                            text = tomorrowDay.avgtemp_c.toInt().toString(),
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 100.sp
-                        )
-                    }
+            }
 
-                    if (tomorrowDay != null) {
-                        Text(
-                            text = "/" + tomorrowDay.maxtemp_c.toInt().toString() + "°",
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 50.sp,
-                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
-                        )
-                    }
-                }
-
-                if (tomorrowDay != null) {
+            Box(
+                modifier = Modifier.weight(1f)
+            ) {
+                Column {
                     Text(
-                        text = tomorrowDay.condition.conditionWeatherText,
-                        modifier.padding(top = 5.dp),
-                        style = TextStyle(
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 22.sp,
-                            color = Color.White.copy(alpha = 0.4f)
-                        )
+                        text = stringResource(id = R.string.tomorrow),
+                        fontWeight = FontWeight.Light,
+                        fontSize = 28.sp
                     )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        if (tomorrowDay != null) {
+                            Text(
+                                text = tomorrowDay.avgtemp_c.toInt().toString(),
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 100.sp
+                            )
+                        }
+
+                        if (tomorrowDay != null) {
+                            Text(
+                                text = "/" + tomorrowDay.maxtemp_c.toInt().toString() + "°",
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 50.sp,
+                                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
+                            )
+                        }
+                    }
+
+                    if (tomorrowDay != null) {
+                        Text(
+                            text = tomorrowDay.condition.conditionWeatherText,
+                            modifier.padding(top = 5.dp),
+                            style = TextStyle(
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 22.sp,
+                                color = Color.White.copy(alpha = 0.4f)
+                            )
+                        )
+                    }
                 }
             }
 

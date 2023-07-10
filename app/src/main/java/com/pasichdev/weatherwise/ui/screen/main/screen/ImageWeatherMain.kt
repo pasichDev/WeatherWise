@@ -13,7 +13,7 @@ import com.pasichdev.weatherwise.R
 @Composable
 fun ImageWeatherMain(modifier: Modifier = Modifier) {
 
-    Image(painter = painterResource(id = R.drawable.weather_test_big),
+    Image(painter = painterResource(id = R.drawable.sun),
         contentDescription = "WeatherIcon",
         modifier = modifier
             .padding(vertical = 20.dp)
