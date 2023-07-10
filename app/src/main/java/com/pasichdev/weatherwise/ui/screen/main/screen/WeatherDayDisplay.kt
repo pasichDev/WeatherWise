@@ -29,7 +29,7 @@ fun WeatherDayInfoDisplay(
     currentWeather: Weather = Weather()
 ) {
     val current = currentWeather.current
-    val chanceOfRain = currentWeather.forecast.forecastdays?.get(0)?.day?.daily_chance_of_rain
+    val chanceOfRain = currentWeather.forecast.forecastdays[0].day?.daily_chance_of_rain
 
 
     Column(

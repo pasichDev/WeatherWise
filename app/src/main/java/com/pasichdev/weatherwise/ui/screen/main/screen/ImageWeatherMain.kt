@@ -7,10 +7,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.pasichdev.weatherwise.R
 
 @Composable
 fun ImageWeatherMain(modifier: Modifier = Modifier) {
+
     Image(painter = painterResource(id = R.drawable.weather_test_big),
         contentDescription = "WeatherIcon",
         modifier = modifier
