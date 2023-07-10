@@ -14,9 +14,8 @@ import com.pasichdev.weatherwise.data.model.Location
 class WeatherConverter {
 
 
-
     @TypeConverter
-    fun fromLocation(value: String): Location{
+    fun fromLocation(value: String): Location {
         val type = object : TypeToken<Location>() {}.type
         return Gson().fromJson(value, type)
     }
@@ -27,7 +26,7 @@ class WeatherConverter {
     }
 
     @TypeConverter
-    fun fromCurrentWeather(value: String): CurrentWeather{
+    fun fromCurrentWeather(value: String): CurrentWeather {
         val type = object : TypeToken<CurrentWeather>() {}.type
         return Gson().fromJson(value, type)
     }
@@ -69,6 +68,7 @@ class WeatherConverter {
     fun toForecastDays(source: List<ForecastDay>): String {
         return Gson().toJson(source)
     }
+
     @TypeConverter
     fun fromForecastDay(value: String): ForecastDay {
         val type = object : TypeToken<ForecastDay>() {}.type
@@ -93,17 +93,15 @@ class WeatherConverter {
 
 
     @TypeConverter
-    fun fromHour(value: String):  List<Hour> {
-        val type = object : TypeToken< List<Hour>>() {}.type
+    fun fromHour(value: String): List<Hour> {
+        val type = object : TypeToken<List<Hour>>() {}.type
         return Gson().fromJson(value, type)
     }
 
     @TypeConverter
-    fun toHour(source:  List<Hour>): String {
+    fun toHour(source: List<Hour>): String {
         return Gson().toJson(source)
     }
-
-
 
 
 }

@@ -1,5 +1,6 @@
 package com.pasichdev.weatherwise.ui.screen.main.screen.searchLocation
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,6 +25,7 @@ import com.pasichdev.weatherwise.data.model.Location
 @Composable
 fun BottomSheetSearchLocation(
     modifier: Modifier = Modifier,
+    locationSelect: Location,
     searchText: String,
     locations: List<Location>,
     onLocationSelected: (Location) -> Unit,
@@ -31,13 +33,11 @@ fun BottomSheetSearchLocation(
 ) {
     var inputText by remember { mutableStateOf(searchText) }
     Column {
+        Box(modifier = modifier.padding(horizontal = 20.dp)){
 
-        LazyColumn(contentPadding = PaddingValues(horizontal = 20.dp)) {
-            items(locations.size) {
-                LocationItem(location = locations[it],
-                    clickItem = { onLocationSelected.invoke(locations[it]) })
-            }
+            LocationItem(location = locationSelect, clickItem = { })
         }
+
         TextField(modifier = modifier
             .fillMaxWidth()
             .padding(20.dp),
@@ -52,5 +52,11 @@ fun BottomSheetSearchLocation(
                 unfocusedIndicatorColor = Color.Transparent,
             ),
             label = { Text(stringResource(id = R.string.hintCitySearch)) })
-    }
+
+    LazyColumn(contentPadding = PaddingValues(horizontal = 20.dp)) {
+        items(locations.size) {
+            LocationItem(location = locations[it],
+                clickItem = { onLocationSelected.invoke(locations[it]) })
+        }
+    }  }
 }

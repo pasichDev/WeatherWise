@@ -3,9 +3,12 @@ package com.pasichdev.weatherwise.ui.screen.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pasichdev.weatherwise.data.DataStoreManager
+import com.pasichdev.weatherwise.data.model.Location
 import com.pasichdev.weatherwise.data.repository.AppRepository
+import com.pasichdev.weatherwise.utils.DATA_REFRESH_STATUS_LOADING
 import com.pasichdev.weatherwise.utils.DATA_REFRESH_STATUS_NO_CONNECTED
 import com.pasichdev.weatherwise.utils.DATA_REFRESH_STATUS_UPDATED
+import com.pasichdev.weatherwise.utils.getLocationParam
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -33,13 +36,17 @@ class MainViewModel @Inject constructor(
         fetchWeatherCurrentDay()
     }
 
+    private fun clearListCity(){
+        _state.value.listCityWeather = emptyList()
+    }
 
-    fun fetchLocationWeather() {
+
+    private fun fetchLocationWeather() {
         viewModelScope.launch {
             dataStoreManager.userPreferencesFlow.collect {
                 _state.update { state ->
                     state.copy(
-                        locationWeather = it.locationWeather
+                        locationWeather = it
                     )
                 }
             }
@@ -60,8 +67,16 @@ class MainViewModel @Inject constructor(
     }
 
     fun updateFetch() = fetchWeatherCurrentDay()
-    fun updateLocationWeather(locationWeather: String) {
-        viewModelScope.launch { dataStoreManager.saveLocationWeather(locationWeather) }
+    fun updateLocationWeather(locationWeather: Location) {
+        clearListCity()
+        viewModelScope.launch {
+            _state.update { state ->
+                state.copy(
+                    dataRefreshStatus = DATA_REFRESH_STATUS_LOADING
+                )
+            }
+            dataStoreManager.saveLocation(locationWeather)
+        }
     }
 
     fun fetchResultLocationSearch(location: String) {
@@ -83,7 +98,13 @@ class MainViewModel @Inject constructor(
             homeState.locationWeather
         }.map {
             try {
-                appRepository.updateWeatherLocal(appRepository.getWeatherCurrentDay(country = state.value.locationWeather))
+                appRepository.updateWeatherLocal(
+                    appRepository.getWeatherCurrentDay(
+                        country = getLocationParam(
+                            _state.value.locationWeather
+                        )
+                    )
+                )
                 _state.update { state ->
                     state.copy(
                         dataRefreshStatus = DATA_REFRESH_STATUS_UPDATED

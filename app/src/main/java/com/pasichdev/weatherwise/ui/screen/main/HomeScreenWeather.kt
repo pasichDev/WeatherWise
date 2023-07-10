@@ -72,7 +72,7 @@ fun HomeScreenWeather(
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     var openBottomSheet by rememberSaveable { mutableStateOf(false) }
-    val skipPartiallyExpanded by remember { mutableStateOf(false) }
+    val skipPartiallyExpanded by remember { mutableStateOf(true) }
     val edgeToEdgeEnabled by remember { mutableStateOf(false) }
     val bottomSheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = skipPartiallyExpanded
@@ -80,7 +80,7 @@ fun HomeScreenWeather(
 
 
     Scaffold(topBar = {
-        ToolbarMainActivity(locationWeather = state.locationWeather,
+        ToolbarMainActivity(locationWeather = state.locationWeather.name,
             listener = object : ToolBarMainListener {
                 override fun searchCity() {
 
@@ -115,9 +115,10 @@ fun HomeScreenWeather(
                     windowInsets = windowInsets
                 ) {
                     BottomSheetSearchLocation(searchText = "",
+                        locationSelect = state.locationWeather,
                         locations = state.listCityWeather,
                         onLocationSelected = {
-                            viewModel.updateLocationWeather(it.name)
+                            viewModel.updateLocationWeather(it)
                             openBottomSheet = false
                         },
                         onLocationRefresh = {
