@@ -11,7 +11,7 @@ interface ApiService {
   suspend fun getWeatherCurrentDay(
     @Query("key") key: String = API_KEY,
     @Query("q") location: String,
-    @Query("lang") lang: String = "uk",
+    @Query("lang") lang: String ,
     @Query("days") days: Int = 14
   ): Weather
 

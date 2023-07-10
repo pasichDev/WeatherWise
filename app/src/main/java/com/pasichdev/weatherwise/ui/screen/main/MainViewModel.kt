@@ -108,7 +108,7 @@ class MainViewModel @Inject constructor(
             try {
                 appRepository.updateWeatherLocal(
                     appRepository.getWeatherCurrentDay(
-                        country = getLocationParam(_state.value.locationWeather)
+                        city = getLocationParam(_state.value.locationWeather)
                     )
                 )
                 _state.update { state ->
