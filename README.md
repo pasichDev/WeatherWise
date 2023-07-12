@@ -1,6 +1,8 @@
 # WeatherWise
 
-WeatherWise is a pet project that utilizes weatherapi.com to fetch weather data.
+WeatherWise is a pet project that utilizes [weatherapi.com](https://www.weatherapi.com/docs/) to fetch weather data.
+
+**The project is not finished, there may be new versions**
 
 ## Description
 
@@ -22,7 +24,12 @@ The project utilizes the following libraries:
 ## Screenshots
 
 ![Screenshot 1](https://github.com/pasichDev/WeatherWise/blob/master/screenshots/scrn1.jpg)
-![Screenshot 2](https://github.com/pasichDev/WeatherWise/blob/master/screenshots/scrn1.jpg))
+![Screenshot 2](https://github.com/pasichDev/WeatherWise/blob/master/screenshots/scrn2.jpg))
+
+## Attention
+
+- The project does not fully implement the display of the weather condition in the picture
+- Also don't forget to change my api token to yours
 
 ## Acknowledgements
 
