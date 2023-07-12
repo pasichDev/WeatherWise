@@ -21,9 +21,8 @@ The project utilizes the following libraries:
 
 ## Screenshots
 
-![Screenshot 1](screenshots/screenshot1.png)
-![Screenshot 2](screenshots/screenshot2.png)
-![Screenshot 3](screenshots/screenshot3.png)
+![Screenshot 1](https://github.com/pasichDev/WeatherWise/blob/master/screenshots/scrn1.jpg)
+![Screenshot 2](https://github.com/pasichDev/WeatherWise/blob/master/screenshots/scrn1.jpg))
 
 ## Acknowledgements
 
