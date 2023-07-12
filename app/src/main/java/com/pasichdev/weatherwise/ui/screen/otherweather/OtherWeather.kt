@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -17,11 +16,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.pasichdev.weatherwise.data.model.ForecastDay
+import com.pasichdev.weatherwise.ui.screen.components.ToastNotRelease
 import com.pasichdev.weatherwise.ui.screen.otherweather.screen.NextDayItem
 import com.pasichdev.weatherwise.ui.screen.otherweather.screen.ToolbarOther
 import com.pasichdev.weatherwise.ui.screen.otherweather.screen.WeatherTomorrowDisplay
@@ -35,6 +36,7 @@ fun OtherWeather(
     viewModel: OtherViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     Scaffold(topBar = {
         ToolbarOther(listener = object : ToolBarListener {
@@ -42,9 +44,7 @@ fun OtherWeather(
                 navController.popBackStack()
             }
 
-            override fun more() {
-                TODO("Not yet implemented")
-            }
+            override fun more() = ToastNotRelease(context)
         })
     }) {
 

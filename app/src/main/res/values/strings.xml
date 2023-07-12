@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Weather Wise</string>
-    <string name="thunderstorm">Thunderstorm</string>
     <string name="wind">Wind</string>
     <string name="Humidity">Humidity</string>
     <string name="ChanceOfRain">Precipitation</string>

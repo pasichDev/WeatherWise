@@ -3,6 +3,7 @@ package com.pasichdev.weatherwise.ui.screen.main
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,6 +36,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -44,8 +48,8 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.pasichdev.weatherwise.R
 import com.pasichdev.weatherwise.ui.OTHER_WEATHER_SCREEN
+import com.pasichdev.weatherwise.ui.screen.components.ToastNotRelease
 import com.pasichdev.weatherwise.ui.screen.main.screen.HourWeatherCard
-import com.pasichdev.weatherwise.ui.screen.main.screen.ImageWeatherMain
 import com.pasichdev.weatherwise.ui.screen.main.screen.StatusLoadingInfo
 import com.pasichdev.weatherwise.ui.screen.main.screen.ToolbarMainActivity
 import com.pasichdev.weatherwise.ui.screen.main.screen.WeatherDayInfoDisplay
@@ -54,6 +58,7 @@ import com.pasichdev.weatherwise.ui.theme.SystemGradienTwoTest
 import com.pasichdev.weatherwise.ui.theme.SystemTest
 import com.pasichdev.weatherwise.utils.convertToDay
 import com.pasichdev.weatherwise.utils.convertToHour
+import com.pasichdev.weatherwise.utils.getWeatherIcon
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -70,6 +75,7 @@ fun HomeScreenWeather(
 ) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     var openBottomSheet by rememberSaveable { mutableStateOf(false) }
     val skipPartiallyExpanded by remember { mutableStateOf(true) }
@@ -87,9 +93,8 @@ fun HomeScreenWeather(
                     openBottomSheet = !openBottomSheet
                 }
 
-                override fun detailNews() {
-
-                }
+                override fun detailNews() = ToastNotRelease(context)
+                override fun more() = ToastNotRelease(context)
             })
     }) { it ->
 
@@ -166,8 +171,17 @@ fun InfoCurrentWeather(
                 dataRefreshStatus = state.dataRefreshStatus,
                 refreshConnected = refreshConnected
             )
-            ImageWeatherMain()
-            state.currentDay?.let { WeatherDayInfoDisplay(currentWeather = it) }
+
+            state.currentDay?.let {
+                Image(
+                    painter = painterResource(id = getWeatherIcon(it.current.condition.conditionWeatherCode)),
+                    contentDescription = "WeatherIcon",
+                    modifier = modifier
+                        .padding(vertical = 20.dp)
+                        .size(250.dp)
+                )
+                WeatherDayInfoDisplay(currentWeather = it)
+            }
 
         }
 
@@ -238,9 +252,9 @@ fun TodayWeather(
                 val item = hoursList[index]
                 val isToday = containsCurrentTime(item.time, currentDateTime)
 
-                if (convertToHour(item.time) >= convertToHour(currentDateTime)) HourWeatherCard(
-                    weatherHours = item, selected = isToday
-                )
+                if (convertToHour(item.time) >= convertToHour(currentDateTime)) {
+                    HourWeatherCard(weatherHours = item, selected = isToday)
+                }
                 coroutineScope.launch {
                     if (isToday) {
                         lazyListState.scrollToItem(index)

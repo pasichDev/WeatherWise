@@ -26,6 +26,7 @@ import com.pasichdev.weatherwise.R
 import com.pasichdev.weatherwise.data.model.ForecastDay
 import com.pasichdev.weatherwise.ui.screen.components.InfoWeatherCard
 import com.pasichdev.weatherwise.ui.theme.WeatherWiseTheme
+import com.pasichdev.weatherwise.utils.getWeatherIcon
 
 @Composable
 fun WeatherTomorrowDisplay(
@@ -49,11 +50,13 @@ fun WeatherTomorrowDisplay(
             Box(
                 modifier = Modifier.weight(1f), contentAlignment = Alignment.Center
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.sun),
-                    contentDescription = "WeatherIcon",
-                    modifier = modifier.size(150.dp)
-                )
+                if (tomorrowDay != null) {
+                    Image(
+                        painter = painterResource(id = getWeatherIcon(tomorrowDay.condition.conditionWeatherCode)),
+                        contentDescription = "WeatherIcon",
+                        modifier = modifier.size(150.dp)
+                    )
+                }
             }
 
             Box(

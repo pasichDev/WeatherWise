@@ -75,7 +75,7 @@ fun HourWeatherCard(modifier: Modifier = Modifier, weatherHours: Hour, selected:
                     model = "https://" + weatherHours.condition.conditionWeatherIcon,
                     contentDescription = null,
                     modifier = modifier
-                        .size(60.dp)
+                        .size(50.dp)
                 )
 
                 Text(

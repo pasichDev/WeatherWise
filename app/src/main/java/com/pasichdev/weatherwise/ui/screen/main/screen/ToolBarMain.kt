@@ -26,15 +26,18 @@ import com.pasichdev.weatherwise.utils.DEFAULT_LOCATION_WEATHER
 
 
 @Composable
-fun ToolbarMainActivity(modifier: Modifier = Modifier, locationWeather: String = DEFAULT_LOCATION_WEATHER, listener: ToolBarMainListener) {
+fun ToolbarMainActivity(
+    modifier: Modifier = Modifier,
+    locationWeather: String = DEFAULT_LOCATION_WEATHER,
+    listener: ToolBarMainListener
+) {
 
     Row(
         modifier = modifier.background(color = SystemGradienTwoTest),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        IconButton(
-            modifier = modifier.padding(start = 20.dp),
+        IconButton(modifier = modifier.padding(start = 20.dp),
             onClick = { listener.detailNews() }) {
             Icon(painter = painterResource(id = R.drawable.more_grid), contentDescription = "")
         }
@@ -65,7 +68,7 @@ fun ToolbarMainActivity(modifier: Modifier = Modifier, locationWeather: String =
             }
         }
 
-        IconButton(modifier = modifier.padding(end = 20.dp), onClick = { /*TODO*/ }) {
+        IconButton(modifier = modifier.padding(end = 20.dp), onClick = { listener.more() }) {
             Icon(painter = painterResource(id = R.drawable.more), contentDescription = "")
         }
     }
@@ -82,6 +85,10 @@ fun ToolbarMainActivityPreview() {
             }
 
             override fun detailNews() {
+                TODO("Not yet implemented")
+            }
+
+            override fun more() {
                 TODO("Not yet implemented")
             }
         })

@@ -14,7 +14,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,7 +37,9 @@ fun StatusLoadingInfo(
     Box(
         modifier = modifier
             .border(
-                width = 1.dp, color = Color.White, shape = RoundedCornerShape(20.dp)
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
+                shape = RoundedCornerShape(20.dp)
             )
             .padding(5.dp)
 
@@ -59,8 +60,10 @@ fun StatusLoadingInfo(
                 text = stringResource(id = dataRefreshStatusStrings[dataRefreshStatus - 1]),
                 modifier = Modifier
                     .padding(end = 5.dp)
-                    .clickable(enabled = dataRefreshStatus == DATA_REFRESH_STATUS_NO_CONNECTED,
-                        onClick = refreshConnected),
+                    .clickable(
+                        enabled = dataRefreshStatus == DATA_REFRESH_STATUS_NO_CONNECTED,
+                        onClick = refreshConnected
+                    ),
                 color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 14.sp
             )
